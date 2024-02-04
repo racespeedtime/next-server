@@ -1,0 +1,14 @@
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+node_modules
+.DS_Store
+
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

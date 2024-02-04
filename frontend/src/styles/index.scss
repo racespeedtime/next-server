@@ -1,0 +1,38 @@
+// 引入清除默认样式
+@import "./reset.scss";
+// 进度条配置
+@import "./nprogress.scss";
+
+
+
+
+/* 当前页面最大化CSS，选项卡也行要去掉可以加上.el-tabs, */
+.main-maximize {
+
+  .aside-split,
+  .el-aside,
+  .el-header,
+  .el-footer,
+  .tabs-box {
+    display: none !important;
+  }
+}
+
+.table-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  .el-card {
+    height: 100%;
+    overflow: auto;
+  }
+
+  .el-card__body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+}
