@@ -33,11 +33,15 @@ export async function initDynamicRouter() {
     // 4.添加错误路由
     router.addRoute(errorRoute)
   }
-  catch (error) {
-    console.log(error)
-    // 当菜单请求出错时，重定向到登陆页
-    authStore.setToken('')
-    router.replace(LOGIN_URL)
+  catch (error: any) {
+    if (error && error.code === 'ERR_NETWORK') {
+      router.replace('/500')
+    }
+    else {
+      // 当菜单请求出错时，重定向到登陆页
+      authStore.setToken('')
+      router.replace(LOGIN_URL)
+    }
     return Promise.reject(error)
   }
 }
