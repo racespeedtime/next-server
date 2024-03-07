@@ -18,9 +18,9 @@ const chooseItem = ref({} as any)
 const choosePath = ref('')
 
 const isHideCloseLeft = computed(() => {
-  if (!chooseItem.value.path)
+  if (!chooseItem.value.fullPath)
     return false
-  const index = tabsStore.tabList.findIndex(item => item.path === chooseItem.value.path)
+  const index = tabsStore.tabList.findIndex(item => item.fullPath === chooseItem.value.fullPath)
   if (index === -1)
     return false
   const isLeftCannotClose = tabsStore.tabList.slice(0, index).every(item => !item.close)
@@ -28,9 +28,9 @@ const isHideCloseLeft = computed(() => {
 })
 
 const isHideCloseRight = computed(() => {
-  if (!chooseItem.value.path)
+  if (!chooseItem.value.fullPath)
     return false
-  const index = tabsStore.tabList.findIndex(item => item.path === chooseItem.value.path)
+  const index = tabsStore.tabList.findIndex(item => item.fullPath === chooseItem.value.fullPath)
   if (index === -1)
     return false
   if (index === tabsStore.tabList.length - 1)
@@ -44,7 +44,7 @@ function handleTabsMenu(item, e: MouseEvent) {
 
   console.log(chooseItem.value)
 
-  choosePath.value = item.path
+  choosePath.value = item.fullPath
   const card = document.querySelector('.tabs-card') as HTMLElement | null
 
   // 阻止默认右键菜单

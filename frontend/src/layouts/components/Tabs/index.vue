@@ -29,27 +29,26 @@ onMounted(() => {
 watch(
   () => route.fullPath,
   () => {
-    if (route.meta.isFull)
-      return
-    // 2、激活选中的选项卡
-    setActiveTab()
-    // 3、添加选项卡
+    // 2、添加选项卡
     addTab()
+    // 3、激活选中的选项卡
+    setActiveTab()
   },
 )
 
 // 1、初始化需要固定的 tabs[isAffix（配置固定tabs项），在进入系统的时候，获取对应权限菜单数据，如果里面有固定tabs配置项，则进行添加]
 function initTabs() {
-  authStore.flattenMenuList.forEach((item: any) => {
+  authStore.flattenMenuList.forEach((item) => {
     if (
       item.meta.isAffix
       && item.meta.isShow !== false
-      // && item.meta.isFull == "1"
     ) {
       const tabsParams = {
         icon: item.meta.icon,
         title: item.meta.title,
         path: item.path,
+        fullPath: item.path,
+        query: {},
         name: item.name,
         close: false,
         isKeepAlive: item.meta.isKeepAlive,
@@ -74,17 +73,20 @@ function setActiveTab() {
 function addTab() {
   // console.log("添加选项卡", route.path, route.meta.isAffix);
   // 解构路由数据
-  const { meta, fullPath } = route
+  const { meta, path, query } = route
+  console.log(tabList.value)
   // 构造选项卡数据
   const tab = {
     icon: meta.icon,
     title: meta.title as string,
-    path: fullPath,
+    path,
+    fullPath: route.fullPath,
+    query,
     name: route.name as string,
     close: !route.meta.isAffix, // true则显示关闭图标
     isKeepAlive: route.meta.isKeepAlive,
   }
-  if (fullPath === HOME_URL) {
+  if (path === HOME_URL) {
     // 如果是首页的话，就固定不可关闭。
     tab.close = false
   }
@@ -107,10 +109,9 @@ function removeTab(fullPath: any) {
 
 // 5、点击切换选项卡
 function clickToggleTab(tab: TabsPaneContext) {
-  const { props } = tab
-  // console.log(props.name); // 打印路由path
   // 将切换的选项卡进行添加路由操作
-  router.push({ path: props.name as string })
+  const { path, query } = tabList.value.find(item => item.fullPath === tab.props.name)
+  router.push({ path, query })
 }
 
 // 6、tabs 拖拽排序
@@ -151,16 +152,16 @@ function handleTabsMenuParent(item, value) {
     <!-- :closable="true" 显示关闭图标 -->
     <el-tab-pane
       v-for="item in tabList"
-      :key="item.path"
+      :key="item.fullPath"
       :label="item.title"
-      :name="item.path"
+      :name="item.fullPath"
     >
       <!-- 加载图标 -->
       <template #label>
         <div class=" flex items-center px-10px h-full gap-x-4px " @contextmenu.prevent="handleTabsMenuParent(item, $event)">
           <IconRender :size="16" class="m-r-2px" :icon="item.icon" :local="item.localIcon" />
           <span>{{ item.title }}</span>
-          <el-icon v-if="item.close" :size="14" @click.stop="removeTab(item.path)">
+          <el-icon v-if="item.close" :size="14" @click.stop="removeTab(item.fullPath)">
             <Close />
           </el-icon>
         </div>

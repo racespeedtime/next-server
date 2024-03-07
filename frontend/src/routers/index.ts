@@ -79,8 +79,6 @@ router.beforeEach(
     if (!token)
       return next({ path: LOGIN_URL, replace: true })
 
-    console.log(settings.backendRoute, isInitRoute, 'adad')
-
     // 6、如果没有菜单列表[一级扁平化路由 OR 递归菜单路由数据判断是否存在都阔以]，就重新请求菜单列表并添加动态路由。
     if (settings.backendRoute && !getMenuList.length) {
       if (!getMenuList.length) {
