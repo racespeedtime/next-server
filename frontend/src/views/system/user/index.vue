@@ -72,10 +72,11 @@ async function handleUpdate(row?: any) {
   // 标题
   title.value = '用户修改'
   const id = row ? row.id : checkedUserIds.value[0]
-  if (!id)
+  if (!id) {
     msgError('请选中需要修改的数据')
+    return
+  }
 
-  console.log(id)
   // 回显数据
   handleEcho(id)
   drawerRef.value.open()
@@ -154,7 +155,7 @@ const { Table, getList: handleListPage } = useTable({
       return (
         <el-row gutter={10}>
           <el-col span={1.5}>
-            <el-button type="primary" icon="plus" plain onClick={handleAdd}>
+            <el-button type="primary" icon="plus" plain onClick={() => handleAdd()}>
               新增
             </el-button>
           </el-col>
@@ -164,7 +165,7 @@ const { Table, getList: handleListPage } = useTable({
               icon="edit"
               plain
               disabled={single.value}
-              onClick={handleUpdate}
+              onClick={() => handleUpdate()}
             >
               修改
             </el-button>
@@ -175,7 +176,7 @@ const { Table, getList: handleListPage } = useTable({
               icon="delete"
               plain
               disabled={multiple.value}
-              onClick={handleBatchDelete}
+              onClick={() => handleBatchDelete()}
             >
               删除
             </el-button>
@@ -186,7 +187,7 @@ const { Table, getList: handleListPage } = useTable({
               icon="edit"
               plain
               disabled={single.value}
-              onClick={handleAssignRoles}
+              onClick={() => handleAssignRoles()}
             >
               分配角色
             </el-button>
@@ -253,7 +254,7 @@ const { Table, getList: handleListPage } = useTable({
       align: 'center',
       width: '120',
       fixed: 'right',
-      render(row) {
+      render({ row }) {
         return (
           <>
             <el-tooltip content="修改" placement="top">
