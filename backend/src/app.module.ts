@@ -9,6 +9,12 @@ import { RoleModule } from './role/role.module'
 import { Role } from './role/entities/role.entity'
 import { UserModule } from './user/user.module'
 import { Router } from './auth/router/entities/router.entity'
+import { AttireModule } from './attire/attire.module'
+import { BoardModule } from './board/board.module'
+import { RaceModule } from './race/race.module'
+import { TeamModule } from './team/team.module'
+import { GoodsModule } from './goods/goods.module'
+import { VehicleModule } from './vehicle/vehicle.module'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -36,6 +42,12 @@ const isDev = process.env.NODE_ENV === 'development'
     AuthModule,
     UserModule,
     RoleModule,
+    AttireModule,
+    BoardModule,
+    RaceModule,
+    TeamModule,
+    GoodsModule,
+    VehicleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

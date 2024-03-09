@@ -18,8 +18,6 @@ export class ResponseInterceptor implements NestInterceptor {
     )
     const message = reflectMessage || 'OK'
 
-    console.log(message)
-
     return next.handle().pipe(map(data => ({ code: 0, data, message })))
   }
 }
