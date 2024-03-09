@@ -6,4 +6,4 @@ import { AttachmentsController } from './attachments.controller'
   controllers: [AttachmentsController],
   providers: [AttachmentsService],
 })
-export class AttachmentsModule {}
+export class VehicleAttachmentsModule {}

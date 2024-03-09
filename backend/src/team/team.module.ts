@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
 import { TeamService } from './team.service'
 import { TeamController } from './team.controller'
-import { UserModule } from './user/user.module'
+import { TeamUserModule } from './user/user.module'
 
 @Module({
   controllers: [TeamController],
   providers: [TeamService],
-  imports: [UserModule],
+  imports: [TeamUserModule],
 })
 export class TeamModule {}

@@ -6,4 +6,4 @@ import { ScriptController } from './script.controller'
   controllers: [ScriptController],
   providers: [ScriptService],
 })
-export class ScriptModule {}
+export class RaceCpScriptModule {}

@@ -1,9 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { RolesGuard } from 'src/common/guards/roles.guard'
 import { ScriptService } from './script.service'
 import { CreateScriptDto } from './dto/create-script.dto'
 import { UpdateScriptDto } from './dto/update-script.dto'
 
-@Controller('script')
+@ApiTags('race/cp/script')
+@ApiBearerAuth()
+@UseGuards(JwtGuard, RolesGuard)
+@Controller('race/cp/script')
+
 export class ScriptController {
   constructor(private readonly scriptService: ScriptService) {}
 

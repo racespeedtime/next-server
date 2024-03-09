@@ -6,4 +6,4 @@ import { BanController } from './ban.controller'
   controllers: [BanController],
   providers: [BanService],
 })
-export class BanModule {}
+export class UserBanModule {}

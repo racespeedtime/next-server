@@ -6,4 +6,4 @@ import { LoginRecordController } from './login-record.controller'
   controllers: [LoginRecordController],
   providers: [LoginRecordService],
 })
-export class LoginRecordModule {}
+export class UserLoginRecordModule {}

@@ -6,4 +6,4 @@ import { RecordController } from './record.controller'
   controllers: [RecordController],
   providers: [RecordService],
 })
-export class RecordModule {}
+export class RaceRecordModule {}

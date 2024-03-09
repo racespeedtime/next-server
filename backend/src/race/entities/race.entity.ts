@@ -1,1 +1,38 @@
-export class Race {}
+import { User } from 'src/user/entities/user.entity'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { RaceCp } from '../cp/entities/cp.entity'
+import { RaceRecord } from '../record/entities/record.entity'
+import { RaceCPScript } from '../cp/script/entities/script.entity'
+
+@Entity()
+export class Race {
+  @PrimaryGeneratedColumn('uuid')
+  id: string
+
+  @Column({ comment: '赛道名' })
+  name: string
+
+  @Column({ comment: '描述' })
+  description: string
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
+
+  @DeleteDateColumn()
+  deletedAt: Date
+
+  @ManyToOne(() => User, user => user.races)
+  user: User
+
+  @OneToMany(() => RaceCp, cp => cp.race)
+  checkpoints: RaceCp[]
+
+  @OneToMany(() => RaceCPScript, script => script.race)
+  scripts: RaceCPScript[]
+
+  @OneToMany(() => RaceRecord, record => record.race)
+  records: RaceRecord[]
+}
