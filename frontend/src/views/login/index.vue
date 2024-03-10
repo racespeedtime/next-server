@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
+import type { LoginUser } from 'shared/types'
 import { msgSuccess, noticeSuccess } from '@/utils/msgNotice'
 import { useKeepAliveStore } from '@/stores/modules/keepAlive.ts'
 import { HOME_URL } from '@/config/index.ts'
 import { useTabsStore } from '@/stores/modules/tabs.ts'
-import { userApi } from '@/api/system/user'
-import type { LoginUser } from '@/api/system/user/type'
 import { useAuthStore } from '@/stores/modules/auth.ts'
+import { userApi } from '@/api'
 
 const authStore = useAuthStore()
 const tabsStore = useTabsStore()

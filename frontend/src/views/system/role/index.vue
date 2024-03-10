@@ -8,8 +8,7 @@ import {
   noticeSuccess,
 } from '@/utils/msgNotice'
 
-import { roleApi } from '@/api/system/role/index.ts'
-import { menuApi } from '@/api/system/menu/index.ts'
+import { menuApi, roleApi } from '@/api'
 import { useTable } from '@/composables/table/useTable'
 import { generateTreeRoutesForEdit } from '@/utils/route'
 

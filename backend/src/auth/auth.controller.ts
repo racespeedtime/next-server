@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post, Req } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { Serialize } from 'src/common/decorators/serialize.decorator'
 import { ResponseMessage } from 'src/common/decorators/response-message.decorator'
+import { Request } from 'express'
 import { AuthService } from './auth.service'
 import { LoginDto } from './dto/login.dto'
 import { ResponseLoginDto } from './dto/response-login.dto'
@@ -23,5 +24,12 @@ export class AuthController {
   @ApiOperation({ summary: '注册' })
   register(@Body() dto: LoginDto) {
     return this.authService.register(dto)
+  }
+
+  @Get('serverToken')
+  @ApiOperation({ summary: '服务器自用token,内网穿透下请不要使用' })
+  @Serialize(ResponseLoginDto)
+  serverToken(@Req() req: Request) {
+    return this.authService.serverToken(req)
   }
 }

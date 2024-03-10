@@ -2,21 +2,21 @@ import type { AxiosResponse } from 'axios'
 import axios from 'axios'
 import { SharedENV } from 'shared/constants'
 import { getAxiosErrorMsg } from 'shared/utils'
-import { msgError } from '@/utils/msgNotice'
-import { LOGIN_URL } from '@/config/index.ts'
-import { useAuthStore } from '@/stores/modules/auth.ts'
-import router from '@/routers/index.ts'
+import { userApi } from '@/api'
+
+let token = ''
 
 const instance = axios.create({
-  baseURL: SharedENV[import.meta.env.MODE],
+  // eslint-disable-next-line node/prefer-global/process
+  baseURL: SharedENV[process.env.NODE_ENV as keyof typeof SharedENV],
   timeout: 10000,
 })
 
 instance.interceptors.request.use(
-  (config) => {
-    const { token } = useAuthStore()
-    if (token)
-      config.headers!.Authorization = `Bearer ${token}`
+  async (config) => {
+    if (!token)
+      token = await userApi.serverToken()
+    config.headers!.Authorization = `Bearer ${token}`
     return config
   },
   (error: any) => {
@@ -32,20 +32,15 @@ instance.interceptors.response.use(
 
     if (code === 0)
       return data
-    if (code === 401) {
-      const authStore = useAuthStore()
-      authStore.setToken('')
-      msgError('登录身份过期，请重新登录')
-      router.replace(LOGIN_URL)
+    if (code === 401)
       return Promise.reject(res.data)
-    }
-    msgError(`${message}` || '服务器偷偷跑到火星去玩了')
+
     return Promise.reject(new Error(`${message}` || '服务器偷偷跑到火星去玩了'))
   },
   (error) => {
+    // 处理网络错误，不是服务器响应的数据
     getAxiosErrorMsg(error)
-    msgError(error.data.message)
-    return Promise.reject(error) // 上方 res.data.status != 200也会抛出提示。
+    return Promise.reject(error)
   },
 )
 

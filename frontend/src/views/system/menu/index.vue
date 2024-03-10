@@ -9,7 +9,7 @@ import {
   noticeSuccess,
 } from '@/utils/msgNotice'
 
-import { menuApi } from '@/api/system/menu/index.ts'
+import { menuApi } from '@/api'
 
 import { routeTypeOptions } from '@/constants/system'
 import { useTable } from '@/composables/table/useTable'

@@ -8,7 +8,7 @@ import {
   parseStaticRoutes,
 } from '@/utils/route'
 import { getAllBreadcrumbList } from '@/utils/index.ts'
-import { menuApi } from '@/api/system/menu'
+import { menuApi } from '@/api'
 import type { FrontendFlatRoute, FrontendRecursionRoute } from '@/typings'
 import { LOGIN_URL } from '@/config'
 import { staticRoutes } from '@/routers/modules/staticRouter'

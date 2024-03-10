@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
+    "target": "esnext",
     "baseUrl": "./",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "rootDir": "../",
     "module": "esnext",
     "moduleResolution": "node",
-    "outDir": "dist",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"],
+      "shared/*": ["../shared/*"]
     },
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "types": ["@sa-mp/node", "@types/node"],
     "strict": true,
-    "target": "esnext",
-    "types": ["@sa-mp/node", "@types/node"]
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
-  "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "../shared/**/*.ts"],
+  "exclude": ["node_modules"]
 }

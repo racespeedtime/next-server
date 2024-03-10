@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { cloneDeep } from 'lodash-es'
-import { menuApi } from '@/api/system/menu'
+import { menuApi } from '@/api'
 import { msgError } from '@/utils/msgNotice'
 import { RouteTypeEnum, routeTypeOptions } from '@/constants/system'
 import { viewsModule } from '@/utils/route'

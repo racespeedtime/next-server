@@ -5,13 +5,14 @@
   "scripts": {
     "serve": "omp-server",
     "dev": "npm-run-all -p -r -l dev:server dev:watch",
-    "dev:watch": "cross-env NODE_ENV=dev rollup -c -w",
+    "dev:watch": "cross-env NODE_ENV=development rollup -c -w",
     "dev:server": "nodemon -x omp-server -w dist/bundle.js -d 2",
-    "build": "npm run clean && cross-env NODE_ENV=prod rollup -c",
+    "build": "npm run clean && cross-env NODE_ENV=production rollup -c",
     "clean": "rimraf dist"
   },
   "dependencies": {
     "@infernus/core": "^0.10.0-beta.7",
+    "axios": "^1.6.7",
     "pino": "^8.17.2",
     "pino-pretty": "^10.3.1"
   },

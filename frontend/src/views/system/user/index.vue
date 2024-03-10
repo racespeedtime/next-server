@@ -9,10 +9,8 @@ import {
   noticeSuccess,
 } from '@/utils/msgNotice'
 
-import { userApi } from '@/api/system/user'
-
-import { roleApi } from '@/api/system/role/index.ts'
 import { useTable } from '@/composables/table/useTable'
+import { roleApi, userApi } from '@/api'
 
 /** 添加 AND 修改抽屉 */
 const drawerRef = ref()
@@ -454,4 +452,5 @@ async function handleBatchDelete() {
       </template>
     </Dialog>
   </div>
-</template>
+</template>import { userApi, roleApi } from '@/api';import { userApi, roleApi } from '@/api';
+import { userApi, roleApi } from '@/api';
