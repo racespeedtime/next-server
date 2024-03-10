@@ -109,7 +109,7 @@ export class UserService {
     if (!user)
       return null
 
-    const isSuccess = bcrypt.compare(dto.password, user.password)
+    const isSuccess = await bcrypt.compare(dto.password, user.password)
     if (!isSuccess)
       return null
     return user
