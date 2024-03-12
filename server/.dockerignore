@@ -1,0 +1,12 @@
+node_modules
+dist
+
+log.txt
+*.exe
+*.log
+*.dmp
+*.pdb
+
+*.dll
+plugins/*.dll
+components/*.dll
