@@ -40,6 +40,8 @@ import { TeamUser } from './team/user/entities/user.entity'
 import { TeamUserModule } from './team/user/user.module'
 import { RaceCpScriptModule } from './race/cp/script/script.module'
 import { RaceCpScript } from './race/cp/script/entities/script.entity'
+import { TeleportModule } from './teleport/teleport.module'
+import { Teleport } from './teleport/entities/teleport.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -77,9 +79,9 @@ const teamModules = [TeamModule, TeamUserModule]
 
 const teamEntities = [Team, TeamUser]
 
-const miscModules = [BoardModule, GoodsModule]
+const miscModules = [BoardModule, GoodsModule, TeleportModule]
 
-const miscEntities = [Board, Goods]
+const miscEntities = [Board, Goods, Teleport]
 
 @Module({
   imports: [
@@ -106,7 +108,8 @@ const miscEntities = [Board, Goods]
             ...teamEntities,
             ...miscEntities,
           ],
-          timezone: '+08:00',
+          // timezone: '+08:00',
+          timezone: '+00:00',
         }
       },
     }),

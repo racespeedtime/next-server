@@ -19,6 +19,7 @@ import { RaceRecord } from 'src/race/record/entities/record.entity'
 import { Team } from 'src/team/entities/team.entity'
 import { TeamUser } from 'src/team/user/entities/user.entity'
 import { Vehicle } from 'src/vehicle/entities/vehicle.entity'
+import { Teleport } from 'src/teleport/entities/teleport.entity'
 import { UserSetting } from '../setting/entities/setting.entity'
 import { UserLoginRecord } from '../login-record/entities/login-record.entity'
 import { UserBan } from '../ban/entities/ban.entity'
@@ -102,4 +103,7 @@ export class User {
 
   @OneToMany(() => Vehicle, vehicle => vehicle.user)
   vehicles: Vehicle[]
+
+  @OneToMany(() => Teleport, teleport => teleport.user)
+  teleports: Teleport[]
 }
