@@ -20,12 +20,25 @@ export class RaceService {
     const [list, total] = await this.raceRepository.findAndCount({
       skip: payload.skip,
       take: payload.take,
+      relations: {
+        user: true,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
     })
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.raceRepository.findOne({ where: { id } })
+    return this.raceRepository.findOne(
+      {
+        where: { id },
+        relations: {
+          user: true,
+        },
+      },
+    )
   }
 
   async update(id: string, updateRaceDto: UpdateRaceDto) {

@@ -3,6 +3,8 @@ import type { CustomAxiosRequest } from 'shared/types'
 import { createMenuApi } from './system/menu'
 import { createRoleApi } from './system/role'
 import { createUserApi } from './system/user'
+import { createRaceApi } from './race'
+import { createVehicleApi } from './vehicle'
 
 export function createAllApi(instance: AxiosInstance) {
   const request: CustomAxiosRequest = {
@@ -40,5 +42,7 @@ export function createAllApi(instance: AxiosInstance) {
     menuApi: createMenuApi(request),
     roleApi: createRoleApi(request),
     userApi: createUserApi(request),
+    raceApi: createRaceApi(request),
+    vehicleApi: createVehicleApi(request),
   }
 }

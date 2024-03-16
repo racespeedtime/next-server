@@ -20,12 +20,20 @@ export class VehicleService {
     const [list, total] = await this.vehicleRepository.findAndCount({
       skip: payload.skip,
       take: payload.take,
+      relations: {
+        user: true,
+      },
     })
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.vehicleRepository.findOne({ where: { id } })
+    return this.vehicleRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+      },
+    })
   }
 
   async update(id: string, updateVehicleDto: UpdateVehicleDto) {

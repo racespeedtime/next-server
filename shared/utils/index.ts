@@ -1,3 +1,5 @@
+import type { CustomAxiosRequest } from 'shared/types'
+
 export function getAxiosErrorMsg(error) {
   error.data = {}
   if (error && error.response) {
@@ -44,5 +46,29 @@ export function getAxiosErrorMsg(error) {
   }
   else {
     error.data.message = '连接到服务器失败'
+  }
+}
+
+export function getRestfulApi(request: CustomAxiosRequest, module: string) {
+  return {
+    findAll(params: any) {
+      return request.get(`/${module}`, params)
+    },
+
+    findOne(id: any) {
+      return request.get(`/${module}/${id}`)
+    },
+
+    create(data: any) {
+      return request.post(`/${module}`, data)
+    },
+
+    update(data: any) {
+      return request.patch(`/${module}/${data.id}`, data)
+    },
+
+    remove(id: any) {
+      return request.delete(`/${module}/${id}`)
+    },
   }
 }

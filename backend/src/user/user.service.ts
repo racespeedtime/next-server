@@ -40,6 +40,9 @@ export class UserService {
       relations: { roles: true },
       skip: payload.skip,
       take: payload.take,
+      order: {
+        createdAt: 'DESC',
+      },
     })
     return { list, total }
   }
