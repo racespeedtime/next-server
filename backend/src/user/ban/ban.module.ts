@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common'
-import { BanService } from './ban.service'
-import { BanController } from './ban.controller'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { UserBanService } from './ban.service'
+import { UserBanController } from './ban.controller'
+import { UserBan } from './entities/ban.entity'
 
 @Module({
-  controllers: [BanController],
-  providers: [BanService],
+  controllers: [UserBanController],
+  providers: [UserBanService],
+  imports: [TypeOrmModule.forFeature([UserBan])],
 })
 export class UserBanModule {}

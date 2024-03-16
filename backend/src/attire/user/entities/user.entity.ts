@@ -1,9 +1,9 @@
 import { Attire } from 'src/attire/entities/attire.entity'
 import { User } from 'src/user/entities/user.entity'
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity({ name: 'sys_user_attire' })
-export class UserAttire {
+export class AttireUser {
   @PrimaryGeneratedColumn('uuid')
   id: string
 

@@ -1,40 +1,42 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
-import { SettingService } from './setting.service'
-import { CreateSettingDto } from './dto/create-setting.dto'
-import { UpdateSettingDto } from './dto/update-setting.dto'
+import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
+import { UserSettingService } from './setting.service'
+import { CreateUserSettingDto } from './dto/create-setting.dto'
+import { UpdateUserSettingDto } from './dto/update-setting.dto'
+import { GetUserSettingDto } from './dto/get-setting.dto'
 
 @ApiTags('user/setting')
 @ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('user/setting')
-export class SettingController {
-  constructor(private readonly settingService: SettingService) {}
+export class UserSettingController {
+  constructor(private readonly settingService: UserSettingService) {}
 
   @Post()
-  create(@Body() createSettingDto: CreateSettingDto) {
+  create(@Body() createSettingDto: CreateUserSettingDto) {
     return this.settingService.create(createSettingDto)
   }
 
   @Get()
-  findAll() {
-    return this.settingService.findAll()
+  findAll(@Query(new PaginatePipe()) params: GetUserSettingDto) {
+    return this.settingService.findAll(params)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.settingService.findOne(+id)
+    return this.settingService.findOne(id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSettingDto: UpdateSettingDto) {
-    return this.settingService.update(+id, updateSettingDto)
+  update(@Param('id') id: string, @Body() updateSettingDto: UpdateUserSettingDto) {
+    return this.settingService.update(id, updateSettingDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.settingService.remove(+id)
+    return this.settingService.remove(id)
   }
 }

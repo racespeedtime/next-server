@@ -1,40 +1,42 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
-import { RecordService } from './record.service'
-import { CreateRecordDto } from './dto/create-record.dto'
-import { UpdateRecordDto } from './dto/update-record.dto'
+import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
+import { RaceRecordService } from './record.service'
+import { CreateRaceRecordDto } from './dto/create-record.dto'
+import { UpdateRaceRecordDto } from './dto/update-record.dto'
+import { GetRaceRecordDto } from './dto/get-record.dto'
 
 @ApiTags('race/record')
 @ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('race/record')
-export class RecordController {
-  constructor(private readonly recordService: RecordService) {}
+export class RaceRecordController {
+  constructor(private readonly raceRecordService: RaceRecordService) {}
 
   @Post()
-  create(@Body() createRecordDto: CreateRecordDto) {
-    return this.recordService.create(createRecordDto)
+  create(@Body() createRaceRecordDto: CreateRaceRecordDto) {
+    return this.raceRecordService.create(createRaceRecordDto)
   }
 
   @Get()
-  findAll() {
-    return this.recordService.findAll()
+  findAll(@Query(new PaginatePipe()) params: GetRaceRecordDto) {
+    return this.raceRecordService.findAll(params)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.recordService.findOne(+id)
+    return this.raceRecordService.findOne(id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecordDto: UpdateRecordDto) {
-    return this.recordService.update(+id, updateRecordDto)
+  update(@Param('id') id: string, @Body() updateRecordDto: UpdateRaceRecordDto) {
+    return this.raceRecordService.update(id, updateRecordDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.recordService.remove(+id)
+    return this.raceRecordService.remove(id)
   }
 }

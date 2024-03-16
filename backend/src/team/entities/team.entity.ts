@@ -13,7 +13,7 @@ export class Team {
   @Column({ comment: '全称' })
   fullName: string
 
-  @Column({ comment: '描述' })
+  @Column({ nullable:true, comment: '描述' })
   description: string
 
   @CreateDateColumn()

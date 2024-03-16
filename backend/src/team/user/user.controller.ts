@@ -1,40 +1,42 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
-import { UserService } from './user.service'
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
+import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
+import { TeamUserService } from './user.service'
+import { CreateTeamUserDto } from './dto/create-user.dto'
+import { UpdateTeamUserDto } from './dto/update-user.dto'
+import { GetTeamUserDto } from './dto/get-user.dto'
 
 @ApiTags('team/user')
 @ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('team/user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+export class TeamUserController {
+  constructor(private readonly teamUserService: TeamUserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto)
+  create(@Body() createUserDto: CreateTeamUserDto) {
+    return this.teamUserService.create(createUserDto)
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll()
+  findAll(@Query(new PaginatePipe()) params: GetTeamUserDto) {
+    return this.teamUserService.findAll(params)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id)
+    return this.teamUserService.findOne(id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto)
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateTeamUserDto) {
+    return this.teamUserService.update(id, updateUserDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id)
+    return this.teamUserService.remove(id)
   }
 }

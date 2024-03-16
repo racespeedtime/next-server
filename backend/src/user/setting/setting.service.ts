@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common'
-import { CreateSettingDto } from './dto/create-setting.dto'
-import { UpdateSettingDto } from './dto/update-setting.dto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { CreateUserSettingDto } from './dto/create-setting.dto'
+import { UpdateUserSettingDto } from './dto/update-setting.dto'
+import { GetUserSettingDto } from './dto/get-setting.dto'
+import { UserSetting } from './entities/setting.entity'
 
 @Injectable()
-export class SettingService {
-  create(createSettingDto: CreateSettingDto) {
-    return 'This action adds a new setting'
+export class UserSettingService {
+  constructor(
+    @InjectRepository(UserSetting) private readonly userSettingRepository: Repository<UserSetting>,
+  ) {}
+
+  create(createUserSettingDto: CreateUserSettingDto) {
+    return this.userSettingRepository.save(createUserSettingDto)
   }
 
-  findAll() {
-    return `This action returns all setting`
+  async findAll(payload: GetUserSettingDto) {
+    const [list, total] = await this.userSettingRepository.findAndCount({
+      skip: payload.skip,
+      take: payload.take,
+    })
+    return { list, total }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} setting`
+  findOne(id: string) {
+    return this.userSettingRepository.findOne({ where: { id } })
   }
 
-  update(id: number, updateSettingDto: UpdateSettingDto) {
-    return `This action updates a #${id} setting`
+  async update(id: string, updateUserSettingDto: UpdateUserSettingDto) {
+    const userSetting = await this.findOne(id)
+    if (!userSetting)
+      throw new Error('userSetting not found')
+
+    const merged = this.userSettingRepository.merge(
+      userSetting,
+      updateUserSettingDto,
+    )
+
+    return this.userSettingRepository.save(merged)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} setting`
+  async remove(id: string) {
+    const userSetting = await this.findOne(id)
+    if (!userSetting)
+      throw new Error('userSetting not found')
+
+    return this.userSettingRepository.remove(userSetting)
   }
 }

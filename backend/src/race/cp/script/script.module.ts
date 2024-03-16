@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common'
-import { ScriptService } from './script.service'
-import { ScriptController } from './script.controller'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { RaceCpScriptService } from './script.service'
+import { RaceCpScriptController } from './script.controller'
+import { RaceCpScript } from './entities/script.entity'
 
 @Module({
-  controllers: [ScriptController],
-  providers: [ScriptService],
+  controllers: [RaceCpScriptController],
+  providers: [RaceCpScriptService],
+  imports: [TypeOrmModule.forFeature([RaceCpScript])],
 })
 export class RaceCpScriptModule {}

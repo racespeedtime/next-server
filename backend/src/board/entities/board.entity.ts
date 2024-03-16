@@ -27,10 +27,10 @@ export class Board {
   @Column({ default: false, comment: '是否加粗' })
   bold: boolean
 
-  @Column({ default: -1, comment: '字体颜色' })
+  @Column({ default: '-1', comment: '字体颜色' })
   color: string
 
-  @Column({ default: 16777216, comment: '背景色' })
+  @Column({ default: '16777216', comment: '背景色' })
   bgColor: string
 
   @Column({ default: 1, comment: '对齐方式' })

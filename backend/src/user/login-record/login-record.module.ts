@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common'
-import { LoginRecordService } from './login-record.service'
-import { LoginRecordController } from './login-record.controller'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { UserLoginRecordService } from './login-record.service'
+import { UserLoginRecordController } from './login-record.controller'
+import { UserLoginRecord } from './entities/login-record.entity'
 
 @Module({
-  controllers: [LoginRecordController],
-  providers: [LoginRecordService],
+  controllers: [UserLoginRecordController],
+  providers: [UserLoginRecordService],
+  imports: [TypeOrmModule.forFeature([UserLoginRecord])],
 })
 export class UserLoginRecordModule {}

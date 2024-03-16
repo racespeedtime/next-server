@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common'
-import { CreateLoginRecordDto } from './dto/create-login-record.dto'
-import { UpdateLoginRecordDto } from './dto/update-login-record.dto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { UserLoginRecord } from './entities/login-record.entity'
+import { CreateUserLoginRecordDto } from './dto/create-login-record.dto'
+import { GetUserLoginRecordDto } from './dto/get-login-record.dto'
+import { UpdateUserLoginRecordDto } from './dto/update-login-record.dto'
 
 @Injectable()
-export class LoginRecordService {
-  create(createLoginRecordDto: CreateLoginRecordDto) {
-    return 'This action adds a new loginRecord'
+export class UserLoginRecordService {
+  constructor(
+    @InjectRepository(UserLoginRecord) private readonly userLoginRecordRepository: Repository<UserLoginRecord>,
+  ) {}
+
+  create(createUserLoginRecordDto: CreateUserLoginRecordDto) {
+    return this.userLoginRecordRepository.save(createUserLoginRecordDto)
   }
 
-  findAll() {
-    return `This action returns all loginRecord`
+  async findAll(payload: GetUserLoginRecordDto) {
+    const [list, total] = await this.userLoginRecordRepository.findAndCount({
+      skip: payload.skip,
+      take: payload.take,
+    })
+    return { list, total }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} loginRecord`
+  findOne(id: string) {
+    return this.userLoginRecordRepository.findOne({ where: { id } })
   }
 
-  update(id: number, updateLoginRecordDto: UpdateLoginRecordDto) {
-    return `This action updates a #${id} loginRecord`
+  async update(id: string, updateUserLoginRecordDto: UpdateUserLoginRecordDto) {
+    const userLoginRecord = await this.findOne(id)
+    if (!userLoginRecord)
+      throw new Error('userLoginRecord not found')
+
+    const merged = this.userLoginRecordRepository.merge(
+      userLoginRecord,
+      updateUserLoginRecordDto,
+    )
+
+    return this.userLoginRecordRepository.save(merged)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} loginRecord`
+  async remove(id: string) {
+    const userLoginRecord = await this.findOne(id)
+    if (!userLoginRecord)
+      throw new Error('userLoginRecord not found')
+
+    return this.userLoginRecordRepository.remove(userLoginRecord)
   }
 }

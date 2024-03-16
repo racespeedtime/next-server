@@ -1,40 +1,42 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
-import { CpService } from './cp.service'
-import { CreateCpDto } from './dto/create-cp.dto'
-import { UpdateCpDto } from './dto/update-cp.dto'
+import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
+import { RaceCpService } from './cp.service'
+import { CreateRaceCpDto } from './dto/create-cp.dto'
+import { UpdateRaceCpDto } from './dto/update-cp.dto'
+import { GetRaceCpDto } from './dto/get-cp.dto'
 
 @ApiTags('race/cp')
 @ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('race/cp')
-export class CpController {
-  constructor(private readonly cpService: CpService) {}
+export class RaceCpController {
+  constructor(private readonly raceCpService: RaceCpService) {}
 
   @Post()
-  create(@Body() createCpDto: CreateCpDto) {
-    return this.cpService.create(createCpDto)
+  create(@Body() createCpDto: CreateRaceCpDto) {
+    return this.raceCpService.create(createCpDto)
   }
 
   @Get()
-  findAll() {
-    return this.cpService.findAll()
+  findAll(@Query(new PaginatePipe()) params: GetRaceCpDto) {
+    return this.raceCpService.findAll(params)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.cpService.findOne(+id)
+    return this.raceCpService.findOne(id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCpDto: UpdateCpDto) {
-    return this.cpService.update(+id, updateCpDto)
+  update(@Param('id') id: string, @Body() updateCpDto: UpdateRaceCpDto) {
+    return this.raceCpService.update(id, updateCpDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.cpService.remove(+id)
+    return this.raceCpService.remove(id)
   }
 }

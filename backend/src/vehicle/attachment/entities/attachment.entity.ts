@@ -30,9 +30,6 @@ export class VehicleAttachment {
   @Column({ type: 'double', comment: 'rZ' })
   rZ: number
 
-  @Column({ default: 0, comment: '暂时不清楚' })
-  tagObjects: boolean
-
   @ManyToOne(() => Vehicle, vehicle => vehicle.attachments)
   vehicle: Vehicle
 }

@@ -11,7 +11,7 @@ import {
 } from 'typeorm'
 import { Role } from 'src/role/entities/role.entity'
 import { Exclude } from 'class-transformer'
-import { UserAttire } from 'src/attire/user/entities/user.entity'
+import { AttireUser } from 'src/attire/user/entities/user.entity'
 import { Board } from 'src/board/entities/board.entity'
 import { Goods } from 'src/goods/entities/goods.entity'
 import { Race } from 'src/race/entities/race.entity'
@@ -73,8 +73,8 @@ export class User {
   @OneToOne(() => UserSetting)
   setting: UserSetting
 
-  @OneToMany(() => UserAttire, attire => attire.user)
-  attires: UserAttire
+  @OneToMany(() => AttireUser, attire => attire.user)
+  attires: AttireUser
 
   @OneToMany(() => Board, board => board.user)
   boards: Board[]

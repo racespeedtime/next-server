@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
+import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
 import { AttireService } from './attire.service'
 import { CreateAttireDto } from './dto/create-attire.dto'
 import { UpdateAttireDto } from './dto/update-attire.dto'
+import { GetAttireDto } from './dto/get-attire.dto'
 
 @ApiTags('attire')
 @ApiBearerAuth()
@@ -19,22 +21,22 @@ export class AttireController {
   }
 
   @Get()
-  findAll() {
-    return this.attireService.findAll()
+  findAll(@Query(new PaginatePipe()) params: GetAttireDto) {
+    return this.attireService.findAll(params)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.attireService.findOne(+id)
+    return this.attireService.findOne(id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAttireDto: UpdateAttireDto) {
-    return this.attireService.update(+id, updateAttireDto)
+    return this.attireService.update(id, updateAttireDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.attireService.remove(+id)
+    return this.attireService.remove(id)
   }
 }

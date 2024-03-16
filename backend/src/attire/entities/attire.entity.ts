@@ -1,7 +1,6 @@
-import { User } from 'src/user/entities/user.entity'
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Exclude } from 'class-transformer'
-import { UserAttire } from '../user/entities/user.entity'
+import { AttireUser } from '../user/entities/user.entity'
 
 @Entity()
 export class Attire {
@@ -57,6 +56,6 @@ export class Attire {
   @Exclude()
   deleteAt: Date
 
-  @OneToMany(() => UserAttire, userAttire => userAttire.attire)
-  users: UserAttire[]
+  @OneToMany(() => AttireUser, userAttire => userAttire.attire)
+  users: AttireUser[]
 }

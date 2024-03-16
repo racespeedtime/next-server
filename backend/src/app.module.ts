@@ -17,8 +17,8 @@ import { GoodsModule } from './goods/goods.module'
 import { VehicleModule } from './vehicle/vehicle.module'
 import { UserSetting } from './user/setting/entities/setting.entity'
 import { UserSettingModule } from './user/setting/setting.module'
-import { UserAttire } from './attire/user/entities/user.entity'
-import { UserAttireModule } from './attire/user/user.module'
+import { AttireUser } from './attire/user/entities/user.entity'
+import { AttireUserModule } from './attire/user/user.module'
 import { Attire } from './attire/entities/attire.entity'
 import { Board } from './board/entities/board.entity'
 import { Goods } from './goods/entities/goods.entity'
@@ -34,12 +34,12 @@ import { RaceRecordModule } from './race/record/record.module'
 import { RaceRecord } from './race/record/entities/record.entity'
 import { Vehicle } from './vehicle/entities/vehicle.entity'
 import { Team } from './team/entities/team.entity'
-import { VehicleAttachment } from './vehicle/attachments/entities/attachment.entity'
-import { VehicleAttachmentsModule } from './vehicle/attachments/attachments.module'
+import { VehicleAttachment } from './vehicle/attachment/entities/attachment.entity'
+import { VehicleAttachmentModule } from './vehicle/attachment/attachment.module'
 import { TeamUser } from './team/user/entities/user.entity'
 import { TeamUserModule } from './team/user/user.module'
 import { RaceCpScriptModule } from './race/cp/script/script.module'
-import { RaceCPScript } from './race/cp/script/entities/script.entity'
+import { RaceCpScript } from './race/cp/script/entities/script.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -61,15 +61,15 @@ const userEntities = [
   UserBan,
 ]
 
-const attireEntities = [Attire, UserAttire]
+const attireEntities = [Attire, AttireUser]
 
-const attireModules = [AttireModule, UserAttireModule]
+const attireModules = [AttireModule, AttireUserModule]
 
 const raceModules = [RaceModule, RaceCpModule, RaceCpScriptModule, RaceRecordModule]
 
-const raceEntities = [Race, RaceCp, RaceCPScript, RaceRecord]
+const raceEntities = [Race, RaceCp, RaceCpScript, RaceRecord]
 
-const vehicleModules = [VehicleModule, VehicleAttachmentsModule]
+const vehicleModules = [VehicleModule, VehicleAttachmentModule]
 
 const vehicleEntities = [Vehicle, VehicleAttachment]
 

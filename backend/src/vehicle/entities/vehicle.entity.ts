@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer'
 import { User } from 'src/user/entities/user.entity'
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { VehicleAttachment } from '../attachments/entities/attachment.entity'
+import { VehicleAttachment } from '../attachment/entities/attachment.entity'
 
 @Entity()
 export class Vehicle {

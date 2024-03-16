@@ -2,7 +2,7 @@ import { User } from 'src/user/entities/user.entity'
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { RaceCp } from '../cp/entities/cp.entity'
 import { RaceRecord } from '../record/entities/record.entity'
-import { RaceCPScript } from '../cp/script/entities/script.entity'
+import { RaceCpScript } from '../cp/script/entities/script.entity'
 
 @Entity()
 export class Race {
@@ -12,7 +12,7 @@ export class Race {
   @Column({ comment: '赛道名' })
   name: string
 
-  @Column({ comment: '描述' })
+  @Column({ nullable: true, comment: '描述' })
   description: string
 
   @CreateDateColumn()
@@ -30,8 +30,8 @@ export class Race {
   @OneToMany(() => RaceCp, cp => cp.race)
   checkpoints: RaceCp[]
 
-  @OneToMany(() => RaceCPScript, script => script.race)
-  scripts: RaceCPScript[]
+  @OneToMany(() => RaceCpScript, script => script.race)
+  scripts: RaceCpScript[]
 
   @OneToMany(() => RaceRecord, record => record.race)
   records: RaceRecord[]

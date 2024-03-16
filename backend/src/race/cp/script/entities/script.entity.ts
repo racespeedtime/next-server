@@ -3,7 +3,7 @@ import { Race } from 'src/race/entities/race.entity'
 import { RaceCp } from '../../entities/cp.entity'
 
 @Entity()
-export class RaceCPScript {
+export class RaceCpScript {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -13,7 +13,7 @@ export class RaceCPScript {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @Column({ nullable: true, comment: '脚本' })
+  @Column({ comment: '脚本' })
   script: string
 
   @ManyToOne(() => Race, race => race.scripts)

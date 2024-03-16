@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common'
-import { CreateScriptDto } from './dto/create-script.dto'
-import { UpdateScriptDto } from './dto/update-script.dto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { CreateRaceCpScriptDto } from './dto/create-script.dto'
+import { UpdateRaceCpScriptDto } from './dto/update-script.dto'
+import { GetRaceCpScriptDto } from './dto/get-script.dto'
+import { RaceCpScript } from './entities/script.entity'
 
 @Injectable()
-export class ScriptService {
-  create(createScriptDto: CreateScriptDto) {
-    return 'This action adds a new script'
+export class RaceCpScriptService {
+  constructor(
+    @InjectRepository(RaceCpScript) private readonly raceCpScriptRepository: Repository<RaceCpScript>,
+  ) {}
+
+  create(createRaceDto: CreateRaceCpScriptDto) {
+    return this.raceCpScriptRepository.save(createRaceDto)
   }
 
-  findAll() {
-    return `This action returns all script`
+  async findAll(payload: GetRaceCpScriptDto) {
+    const [list, total] = await this.raceCpScriptRepository.findAndCount({
+      skip: payload.skip,
+      take: payload.take,
+    })
+    return { list, total }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} script`
+  findOne(id: string) {
+    return this.raceCpScriptRepository.findOne({ where: { id } })
   }
 
-  update(id: number, updateScriptDto: UpdateScriptDto) {
-    return `This action updates a #${id} script`
+  async update(id: string, updateRaceDto: UpdateRaceCpScriptDto) {
+    const raceCpScript = await this.findOne(id)
+    if (!raceCpScript)
+      throw new Error('raceCpScript not found')
+
+    const merged = this.raceCpScriptRepository.merge(
+      raceCpScript,
+      updateRaceDto,
+    )
+
+    return this.raceCpScriptRepository.save(merged)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} script`
+  async remove(id: string) {
+    const raceCpScript = await this.findOne(id)
+    if (!raceCpScript)
+      throw new Error('raceCpScript not found')
+
+    return this.raceCpScriptRepository.remove(raceCpScript)
   }
 }

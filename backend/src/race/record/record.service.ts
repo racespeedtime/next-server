@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common'
-import { CreateRecordDto } from './dto/create-record.dto'
-import { UpdateRecordDto } from './dto/update-record.dto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { CreateRaceRecordDto } from './dto/create-record.dto'
+import { UpdateRaceRecordDto } from './dto/update-record.dto'
+import { GetRaceRecordDto } from './dto/get-record.dto'
+import { RaceRecord } from './entities/record.entity'
 
 @Injectable()
-export class RecordService {
-  create(createRecordDto: CreateRecordDto) {
-    return 'This action adds a new record'
+export class RaceRecordService {
+  constructor(
+    @InjectRepository(RaceRecord) private readonly raceRecordRepository: Repository<RaceRecord>,
+  ) {}
+
+  create(createRaceRecordDto: CreateRaceRecordDto) {
+    return this.raceRecordRepository.save(createRaceRecordDto)
   }
 
-  findAll() {
-    return `This action returns all record`
+  async findAll(payload: GetRaceRecordDto) {
+    const [list, total] = await this.raceRecordRepository.findAndCount({
+      skip: payload.skip,
+      take: payload.take,
+    })
+    return { list, total }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} record`
+  findOne(id: string) {
+    return this.raceRecordRepository.findOne({ where: { id } })
   }
 
-  update(id: number, updateRecordDto: UpdateRecordDto) {
-    return `This action updates a #${id} record`
+  async update(id: string, updateRaceRecordDto: UpdateRaceRecordDto) {
+    const raceRecord = await this.findOne(id)
+    if (!raceRecord)
+      throw new Error('raceRecord not found')
+
+    const merged = this.raceRecordRepository.merge(
+      raceRecord,
+      updateRaceRecordDto,
+    )
+
+    return this.raceRecordRepository.save(merged)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} record`
+  async remove(id: string) {
+    const raceRecord = await this.findOne(id)
+    if (!raceRecord)
+      throw new Error('raceRecord not found')
+
+    return this.raceRecordRepository.remove(raceRecord)
   }
 }

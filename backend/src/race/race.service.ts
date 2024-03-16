@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 import { CreateRaceDto } from './dto/create-race.dto'
 import { UpdateRaceDto } from './dto/update-race.dto'
+import { GetRaceDto } from './dto/get-race.dto'
+import { Race } from './entities/race.entity'
 
 @Injectable()
 export class RaceService {
+  constructor(
+    @InjectRepository(Race) private readonly raceRepository: Repository<Race>,
+  ) {}
+
   create(createRaceDto: CreateRaceDto) {
-    return 'This action adds a new race'
+    return this.raceRepository.save(createRaceDto)
   }
 
-  findAll() {
-    return `This action returns all race`
+  async findAll(payload: GetRaceDto) {
+    const [list, total] = await this.raceRepository.findAndCount({
+      skip: payload.skip,
+      take: payload.take,
+    })
+    return { list, total }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} race`
+  findOne(id: string) {
+    return this.raceRepository.findOne({ where: { id } })
   }
 
-  update(id: number, updateRaceDto: UpdateRaceDto) {
-    return `This action updates a #${id} race`
+  async update(id: string, updateRaceDto: UpdateRaceDto) {
+    const race = await this.findOne(id)
+    if (!race)
+      throw new Error('race not found')
+
+    const merged = this.raceRepository.merge(
+      race,
+      updateRaceDto,
+    )
+
+    return this.raceRepository.save(merged)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} race`
+  async remove(id: string) {
+    const race = await this.findOne(id)
+    if (!race)
+      throw new Error('race not found')
+
+    return this.raceRepository.remove(race)
   }
 }

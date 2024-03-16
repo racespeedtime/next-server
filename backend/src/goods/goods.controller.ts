@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
+import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
 import { GoodsService } from './goods.service'
 import { CreateGoodDto } from './dto/create-good.dto'
 import { UpdateGoodDto } from './dto/update-good.dto'
+import { GetGoodsDto } from './dto/get-goods.dto'
 
 @ApiTags('goods')
 @ApiBearerAuth()
@@ -19,22 +21,22 @@ export class GoodsController {
   }
 
   @Get()
-  findAll() {
-    return this.goodsService.findAll()
+  findAll(@Query(new PaginatePipe()) params: GetGoodsDto) {
+    return this.goodsService.findAll(params)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.goodsService.findOne(+id)
+    return this.goodsService.findOne(id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateGoodDto: UpdateGoodDto) {
-    return this.goodsService.update(+id, updateGoodDto)
+    return this.goodsService.update(id, updateGoodDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.goodsService.remove(+id)
+    return this.goodsService.remove(id)
   }
 }
