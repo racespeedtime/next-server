@@ -13,6 +13,9 @@ export class House {
   @Column({ nullable: true, comment: '描述' })
   description: string
 
+  @Column({ default: true, comment: '是否启用' })
+  isEnabled: boolean
+
   @ManyToOne(() => User, user => user.uploadHouses)
   user: User
 

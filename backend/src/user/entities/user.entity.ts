@@ -21,6 +21,7 @@ import { TeamUser } from 'src/team/user/entities/user.entity'
 import { Vehicle } from 'src/vehicle/entities/vehicle.entity'
 import { Teleport } from 'src/teleport/entities/teleport.entity'
 import { House } from 'src/house/entities/house.entity'
+import { Question } from 'src/question/entities/question.entity'
 import { UserSetting } from '../setting/entities/setting.entity'
 import { UserLoginRecord } from '../login-record/entities/login-record.entity'
 import { UserBan } from '../ban/entities/ban.entity'
@@ -113,4 +114,7 @@ export class User {
 
   @OneToMany(() => House, house => house.user)
   uploadHouses: House[]
+
+  @OneToMany(() => Question, question => question.user)
+  questions: Question[]
 }

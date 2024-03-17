@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsOptional, IsString } from 'class-validator'
 
 export class CreateRaceDto {
   @IsString()
@@ -14,4 +14,9 @@ export class CreateRaceDto {
   @IsString()
   @ApiProperty()
   userId: string
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional()
+  isEnabled:boolean
 }

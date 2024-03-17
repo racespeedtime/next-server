@@ -1,13 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsOptional, IsString } from 'class-validator'
 
 export class CreateHouseDto {
   @IsString()
   @ApiProperty()
-  filePath: string
+  name: string
 
   @IsString()
   @IsOptional()
   @ApiPropertyOptional()
   description: string
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional()
+  isEnabled: boolean
 }

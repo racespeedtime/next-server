@@ -6,10 +6,10 @@ export class HouseModel {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column()
+  @Column({ comment: '自定义类型' })
   type: string
 
-  @Column()
+  @Column({ comment: '类型对应参数' })
   args: string
 
   @ManyToOne(() => House, house => house.models)

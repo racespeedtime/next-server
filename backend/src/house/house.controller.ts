@@ -1,10 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { JwtGuard } from 'src/common/guards/jwt.guard'
+import { RolesGuard } from 'src/common/guards/roles.guard'
 import { HouseService } from './house.service'
 import { CreateHouseDto } from './dto/create-house.dto'
 import { UpdateHouseDto } from './dto/update-house.dto'
 import { GetHouseDto } from './dto/get-house.dto'
 
+@ApiTags('house')
+@ApiBearerAuth()
+@UseGuards(JwtGuard, RolesGuard)
 @Controller('house')
 export class HouseController {
   constructor(private readonly houseService: HouseService) {}
