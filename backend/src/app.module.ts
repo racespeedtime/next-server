@@ -48,6 +48,8 @@ import { HouseModel } from './house/model/entities/model.entity'
 import { HouseModelModule } from './house/model/model.module'
 import { QuestionModule } from './question/question.module'
 import { Question } from './question/entities/question.entity'
+import { DeathMatchModule } from './death-match/death-match.module'
+import { DeathMatch } from './death-match/entities/death-match.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -85,9 +87,9 @@ const teamModules = [TeamModule, TeamUserModule]
 
 const teamEntities = [Team, TeamUser]
 
-const miscModules = [BoardModule, GoodsModule, TeleportModule, HouseModule, HouseModelModule, QuestionModule]
+const miscModules = [BoardModule, GoodsModule, TeleportModule, HouseModule, HouseModelModule, QuestionModule, DeathMatchModule]
 
-const miscEntities = [Board, Goods, Teleport, House, HouseModel, Question]
+const miscEntities = [Board, Goods, Teleport, House, HouseModel, Question, DeathMatch]
 
 @Module({
   imports: [
@@ -126,7 +128,7 @@ const miscEntities = [Board, Goods, Teleport, House, HouseModel, Question]
     ...attireModules,
     ...teamModules,
     ...miscModules,
-    QuestionModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

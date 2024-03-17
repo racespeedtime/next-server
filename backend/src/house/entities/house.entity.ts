@@ -1,5 +1,7 @@
 import { User } from 'src/user/entities/user.entity'
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { DeathMatch } from 'src/death-match/entities/death-match.entity'
+import { Race } from 'src/race/entities/race.entity'
 import { HouseModel } from '../model/entities/model.entity'
 
 @Entity()
@@ -25,6 +27,12 @@ export class House {
 
   @OneToMany(() => HouseModel, houseModel => houseModel.house)
   models: HouseModel[]
+
+  @OneToOne(() => DeathMatch)
+  deathMatch: DeathMatch
+
+  @OneToOne(() => Race)
+  race: Race
 
   @CreateDateColumn()
   createdAt: Date

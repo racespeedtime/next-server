@@ -1,5 +1,5 @@
 import { User } from 'src/user/entities/user.entity'
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity({ name: 'sys_user_setting' })
 export class UserSetting {
@@ -7,6 +7,7 @@ export class UserSetting {
   id: string
 
   @OneToOne(() => User)
+  @JoinColumn()
   user: User
 
   @Column({ default: 0, comment: '皮肤' })

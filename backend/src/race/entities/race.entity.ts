@@ -1,5 +1,6 @@
 import { User } from 'src/user/entities/user.entity'
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { House } from 'src/house/entities/house.entity'
 import { RaceCp } from '../cp/entities/cp.entity'
 import { RaceRecord } from '../record/entities/record.entity'
 import { RaceCpScript } from '../cp/script/entities/script.entity'
@@ -38,4 +39,8 @@ export class Race {
 
   @OneToMany(() => RaceRecord, record => record.race)
   records: RaceRecord[]
+
+  @OneToOne(() => House)
+  @JoinColumn()
+  house: House
 }
