@@ -42,6 +42,8 @@ import { RaceCpScriptModule } from './race/cp/script/script.module'
 import { RaceCpScript } from './race/cp/script/entities/script.entity'
 import { TeleportModule } from './teleport/teleport.module'
 import { Teleport } from './teleport/entities/teleport.entity'
+import { HouseModule } from './house/house.module'
+import { House } from './house/entities/house.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -79,9 +81,9 @@ const teamModules = [TeamModule, TeamUserModule]
 
 const teamEntities = [Team, TeamUser]
 
-const miscModules = [BoardModule, GoodsModule, TeleportModule]
+const miscModules = [BoardModule, GoodsModule, TeleportModule, HouseModule]
 
-const miscEntities = [Board, Goods, Teleport]
+const miscEntities = [Board, Goods, Teleport, House]
 
 @Module({
   imports: [
