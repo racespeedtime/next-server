@@ -54,7 +54,7 @@ export class Attire {
 
   @DeleteDateColumn()
   @Exclude()
-  deleteAt: Date
+  deletedAt: Date
 
   @OneToMany(() => AttireUser, userAttire => userAttire.attire)
   users: AttireUser[]

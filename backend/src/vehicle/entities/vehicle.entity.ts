@@ -58,7 +58,7 @@ export class Vehicle {
 
   @DeleteDateColumn()
   @Exclude()
-  deleteAt: Date
+  deletedAt: Date
 
   @ManyToOne(() => User, user => user.vehicles)
   user: User

@@ -44,6 +44,8 @@ import { TeleportModule } from './teleport/teleport.module'
 import { Teleport } from './teleport/entities/teleport.entity'
 import { HouseModule } from './house/house.module'
 import { House } from './house/entities/house.entity'
+import { HouseModel } from './house/model/entities/model.entity'
+import { HouseModelModule } from './house/model/model.module'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -81,9 +83,9 @@ const teamModules = [TeamModule, TeamUserModule]
 
 const teamEntities = [Team, TeamUser]
 
-const miscModules = [BoardModule, GoodsModule, TeleportModule, HouseModule]
+const miscModules = [BoardModule, GoodsModule, TeleportModule, HouseModule, HouseModelModule]
 
-const miscEntities = [Board, Goods, Teleport, House]
+const miscEntities = [Board, Goods, Teleport, House, HouseModel]
 
 @Module({
   imports: [
