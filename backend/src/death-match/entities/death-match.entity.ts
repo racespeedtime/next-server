@@ -1,6 +1,7 @@
 import { House } from 'src/house/entities/house.entity'
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm'
 import { DeathMatchSpawn } from '../spawn/entities/spawn.entity'
+import { DeathMatchWeapon } from '../weapon/entities/weapon.entity'
 
 @Entity()
 export class DeathMatch {
@@ -25,6 +26,9 @@ export class DeathMatch {
 
   @OneToMany(() => DeathMatchSpawn, spawn => spawn.deathMatch)
   spawns: DeathMatchSpawn[]
+
+  @OneToMany(() => DeathMatchWeapon, weapon => weapon.deathMatch)
+  weapons: DeathMatchWeapon[]
 
   @CreateDateColumn()
   createdAt: Date

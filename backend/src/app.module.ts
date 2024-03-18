@@ -52,11 +52,12 @@ import { DeathMatchModule } from './death-match/death-match.module'
 import { DeathMatch } from './death-match/entities/death-match.entity'
 import { DeathMatchSpawn } from './death-match/spawn/entities/spawn.entity'
 import { DeathMatchSpawnModule } from './death-match/spawn/spawn.module'
+import { DeathMatchWeaponModule } from './death-match/weapon/weapon.module'
+import { DeathMatchWeapon } from './death-match/weapon/entities/weapon.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
 const authModules = [AuthModule, RoleModule, RouterModule]
-
 const authEntities = [Role, Router]
 
 const userModules = [
@@ -65,7 +66,6 @@ const userModules = [
   UserLoginRecordModule,
   UserBanModule,
 ]
-
 const userEntities = [
   User,
   UserSetting,
@@ -74,24 +74,25 @@ const userEntities = [
 ]
 
 const attireEntities = [Attire, AttireUser]
-
 const attireModules = [AttireModule, AttireUserModule]
 
 const raceModules = [RaceModule, RaceCpModule, RaceCpScriptModule, RaceRecordModule]
-
 const raceEntities = [Race, RaceCp, RaceCpScript, RaceRecord]
 
 const vehicleModules = [VehicleModule, VehicleAttachmentModule]
-
 const vehicleEntities = [Vehicle, VehicleAttachment]
 
 const teamModules = [TeamModule, TeamUserModule]
-
 const teamEntities = [Team, TeamUser]
 
-const miscModules = [BoardModule, GoodsModule, TeleportModule, HouseModule, HouseModelModule, QuestionModule, DeathMatchModule, DeathMatchSpawnModule]
+const houseModules = [HouseModule, HouseModelModule]
+const houseEntities = [House, HouseModel]
 
-const miscEntities = [Board, Goods, Teleport, House, HouseModel, Question, DeathMatch, DeathMatchSpawn]
+const deathMatchModules = [DeathMatchModule, DeathMatchSpawnModule, DeathMatchWeaponModule]
+const deathMatchEntities = [DeathMatch, DeathMatchSpawn, DeathMatchWeapon]
+
+const miscModules = [BoardModule, GoodsModule, TeleportModule, QuestionModule]
+const miscEntities = [Board, Goods, Teleport, Question]
 
 @Module({
   imports: [
@@ -116,6 +117,8 @@ const miscEntities = [Board, Goods, Teleport, House, HouseModel, Question, Death
             ...raceEntities,
             ...attireEntities,
             ...teamEntities,
+            ...houseEntities,
+            ...deathMatchEntities,
             ...miscEntities,
           ],
           // timezone: '+08:00',
@@ -129,6 +132,8 @@ const miscEntities = [Board, Goods, Teleport, House, HouseModel, Question, Death
     ...raceModules,
     ...attireModules,
     ...teamModules,
+    ...houseModules,
+    ...deathMatchModules,
     ...miscModules,
 
   ],
