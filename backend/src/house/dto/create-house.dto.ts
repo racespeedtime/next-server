@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsBoolean, IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator'
+import { HouseRelation } from 'src/common/enums/house.enum'
 
 export class CreateHouseDto {
   @IsString()
@@ -15,4 +16,9 @@ export class CreateHouseDto {
   @IsOptional()
   @ApiPropertyOptional()
   isEnabled: boolean
+
+  @IsEnum(HouseRelation)
+  @IsOptional()
+  @ApiPropertyOptional()
+  relation: HouseRelation
 }

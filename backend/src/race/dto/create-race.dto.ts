@@ -18,5 +18,10 @@ export class CreateRaceDto {
   @IsBoolean()
   @IsOptional()
   @ApiPropertyOptional()
-  isEnabled:boolean
+  isEnabled: boolean
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  houseId: string
 }

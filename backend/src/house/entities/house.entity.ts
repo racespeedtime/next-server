@@ -2,6 +2,7 @@ import { User } from 'src/user/entities/user.entity'
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { DeathMatch } from 'src/death-match/entities/death-match.entity'
 import { Race } from 'src/race/entities/race.entity'
+import { HouseRelation } from 'src/common/enums/house.enum'
 import { HouseModel } from '../model/entities/model.entity'
 
 @Entity()
@@ -17,6 +18,9 @@ export class House {
 
   @Column({ default: true, comment: '是否启用' })
   isEnabled: boolean
+
+  @Column({ type: 'enum', enum: HouseRelation, default: HouseRelation.NONE, comment: '房屋关系' })
+  relation: HouseRelation
 
   @ManyToOne(() => User, user => user.uploadHouses)
   user: User

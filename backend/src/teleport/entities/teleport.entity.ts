@@ -1,5 +1,6 @@
+import { House } from 'src/house/entities/house.entity'
 import { User } from 'src/user/entities/user.entity'
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 export class Teleport {
@@ -28,6 +29,9 @@ export class Teleport {
   @Column({ type: 'boolean', default: false, comment: '是否为系统级,即单斜杠传送' })
   isSystem: boolean
 
+  @Column({ default: true, comment: '是否启用' })
+  isEnabled: boolean
+
   @Column({ default: 0, comment: '内部空间Id' })
   interiorId: number
 
@@ -42,4 +46,8 @@ export class Teleport {
 
   @ManyToOne(() => User, user => user.teleports)
   user: User
+
+  @OneToOne(() => House)
+  @JoinColumn()
+  house: House
 }

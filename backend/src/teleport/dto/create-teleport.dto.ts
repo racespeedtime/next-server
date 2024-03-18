@@ -32,6 +32,11 @@ export class CreateTeleportDto {
   @ApiPropertyOptional()
   isSystem: boolean
 
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional()
+  isEnabled: boolean
+
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional()
@@ -40,4 +45,9 @@ export class CreateTeleportDto {
   @IsString()
   @ApiProperty()
   userId: string
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  houseId: string
 }
