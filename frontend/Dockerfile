@@ -16,7 +16,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm build
 
 # run
-FROM nginx:latest
+FROM nginx:alpine
 
 COPY /app/nginx.conf /etc/nginx/nginx.conf
 
