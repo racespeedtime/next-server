@@ -1,25 +1,27 @@
-# builder
+# base
+FROM node:20-alpine AS base
 
-FROM node:alpine AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
+RUN corepack enable
+
+COPY . /app
 WORKDIR /app
 
-RUN npm install -g pnpm
+# build
+FROM base AS build
 
-COPY . .
-
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm build
 
-# final
-
+# run
 FROM nginx:latest
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY /app/nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
-

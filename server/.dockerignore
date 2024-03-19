@@ -7,6 +7,8 @@ log.txt
 *.dmp
 *.pdb
 
+.gitignore
+
 *.dll
 plugins/*.dll
 components/*.dll

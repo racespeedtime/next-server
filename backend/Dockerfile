@@ -1,30 +1,34 @@
-# builder
+# base
+FROM node:20-alpine AS base
 
-FROM node:alpine AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+COPY . /app
+COPY .env /app/dist
 
 WORKDIR /app
 
-RUN npm install -g pnpm
+# prod-deps
+FROM base AS prod-deps
 
-COPY . .
-COPY .env ./dist
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
-RUN pnpm install --frozen-lockfile
+# build
+FROM base AS build
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm build
 
-# final
-
-FROM node:alpine
-
-WORKDIR /app
-
-RUN npm install -g pnpm
-
-COPY --from=builder /app/package.json /app/package-lock.yaml ./
-RUN pnpm install --frozen-lockfile --production
-COPY --from=builder /app/dist ./dist
+# run
+FROM base
 
 ENV NODE_ENV=production
+
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
 
 EXPOSE 3000
 
