@@ -21,8 +21,8 @@ export class HouseController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetHouseDto) {
-    return this.houseService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetHouseDto) {
+    return this.houseService.findAll(query)
   }
 
   @Get(':id')

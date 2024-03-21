@@ -46,6 +46,6 @@ export class RaceRecordService {
     if (!raceRecord)
       throw new Error('raceRecord not found')
 
-    return this.raceRecordRepository.remove(raceRecord)
+    return this.raceRecordRepository.softRemove(raceRecord)
   }
 }

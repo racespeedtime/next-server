@@ -21,8 +21,8 @@ export class UserBanController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetUserBanDto) {
-    return this.userBanService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetUserBanDto) {
+    return this.userBanService.findAll(query)
   }
 
   @Get(':id')

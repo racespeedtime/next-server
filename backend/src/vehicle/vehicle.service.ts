@@ -54,6 +54,6 @@ export class VehicleService {
     if (!vehicle)
       throw new Error('vehicle not found')
 
-    return this.vehicleRepository.remove(vehicle)
+    return this.vehicleRepository.softRemove(vehicle)
   }
 }

@@ -46,6 +46,6 @@ export class DeathMatchService {
     if (!deathMatch)
       throw new Error('deathMatch not found')
 
-    return this.deathMatchRepository.remove(deathMatch)
+    return this.deathMatchRepository.softRemove(deathMatch)
   }
 }

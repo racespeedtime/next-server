@@ -21,8 +21,8 @@ export class VehicleAttachmentController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetVehicleAttachmentDto) {
-    return this.vehicleAttachmentsService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetVehicleAttachmentDto) {
+    return this.vehicleAttachmentsService.findAll(query)
   }
 
   @Get(':id')

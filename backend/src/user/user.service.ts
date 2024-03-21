@@ -32,9 +32,9 @@ export class UserService {
     const [list, total] = await this.userRepository.findAndCount({
       where: {
         deletedAt: null,
-        ...conditionWhere({
+        ...conditionWhere<GetUserDto>({
           payload,
-          omits: getConditionOmits<GetUserDto>(),
+          omits: getConditionOmits(),
         }),
       },
       relations: { roles: true },

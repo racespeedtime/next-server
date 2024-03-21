@@ -33,7 +33,7 @@ export function conditionWhere<T extends object, E>(options: {
 
   const final = {}
 
-  Object.keys(omits ? omit(payload as object, omits) : payload).forEach(
+  Object.keys(omits ? omit(payload, omits) : payload).forEach(
     (field) => {
       let setKey = field
       if (mapping && mapping[field])

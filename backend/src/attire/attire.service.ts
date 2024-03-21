@@ -46,6 +46,6 @@ export class AttireService {
     if (!attire)
       throw new Error('attire not found')
 
-    return this.attireRepository.remove(attire)
+    return this.attireRepository.softRemove(attire)
   }
 }

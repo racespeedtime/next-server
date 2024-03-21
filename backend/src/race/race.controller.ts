@@ -21,8 +21,8 @@ export class RaceController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetRaceDto) {
-    return this.raceService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetRaceDto) {
+    return this.raceService.findAll(query)
   }
 
   @Get(':id')

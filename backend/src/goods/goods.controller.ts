@@ -21,8 +21,8 @@ export class GoodsController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetGoodsDto) {
-    return this.goodsService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetGoodsDto) {
+    return this.goodsService.findAll(query)
   }
 
   @Get(':id')

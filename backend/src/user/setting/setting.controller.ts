@@ -21,8 +21,8 @@ export class UserSettingController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetUserSettingDto) {
-    return this.settingService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetUserSettingDto) {
+    return this.settingService.findAll(query)
   }
 
   @Get(':id')

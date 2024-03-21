@@ -21,8 +21,8 @@ export class UserLoginRecordController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetUserLoginRecordDto) {
-    return this.userLoginRecordService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetUserLoginRecordDto) {
+    return this.userLoginRecordService.findAll(query)
   }
 
   @Get(':id')

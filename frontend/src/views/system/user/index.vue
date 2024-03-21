@@ -327,8 +327,8 @@ const dialogRef = ref()
 async function handleAssignRoles() {
   try {
     const user = tableList.value.find(u => u.id === checkedUserIds.value[0])
-    const res = await roleApi.role({ isAll: true })
-    transferLeftList.value = res
+    const { list } = await roleApi.role({ isAll: true })
+    transferLeftList.value = list
     transferRightList.value = cloneDeep(user.roles?.map(r => r.id) || [])
   }
   catch (error) {

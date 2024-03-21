@@ -46,6 +46,6 @@ export class HouseService {
     if (!house)
       throw new Error('house not found')
 
-    return this.houseRepository.remove(house)
+    return this.houseRepository.softRemove(house)
   }
 }

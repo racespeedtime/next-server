@@ -59,6 +59,6 @@ export class TeleportService {
     if (!teleport)
       throw new Error('teleport not found')
 
-    return this.teleportRepository.remove(teleport)
+    return this.teleportRepository.softRemove(teleport)
   }
 }

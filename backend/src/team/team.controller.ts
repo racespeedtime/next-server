@@ -21,8 +21,8 @@ export class TeamController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetTeamDto) {
-    return this.teamService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetTeamDto) {
+    return this.teamService.findAll(query)
   }
 
   @Get(':id')

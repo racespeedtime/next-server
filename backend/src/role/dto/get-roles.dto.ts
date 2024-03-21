@@ -1,3 +1,4 @@
+import { ApiPropertyOptional } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import { IsBoolean, IsOptional, IsString } from 'class-validator'
 import { PaginateDto } from 'src/common/dtos/paginate.dto'
@@ -5,14 +6,11 @@ import { PaginateDto } from 'src/common/dtos/paginate.dto'
 export class GetRolesDto extends PaginateDto {
   @IsString()
   @IsOptional()
+  @ApiPropertyOptional()
   roleName: string
 
   @IsString()
   @IsOptional()
+  @ApiPropertyOptional()
   roleCode: string
-
-  @Transform(value => !!value)
-  @IsBoolean()
-  @IsOptional()
-  isAll: boolean
 }

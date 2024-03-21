@@ -21,8 +21,8 @@ export class DeathMatchWeaponController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetDeathMatchWeaponDto) {
-    return this.deathMatchWeaponService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetDeathMatchWeaponDto) {
+    return this.deathMatchWeaponService.findAll(query)
   }
 
   @Get(':id')

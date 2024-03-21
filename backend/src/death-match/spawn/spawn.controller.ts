@@ -21,8 +21,8 @@ export class DeathMatchSpawnController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetDeathMatchSpawnDto) {
-    return this.deathMatchSpawnService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetDeathMatchSpawnDto) {
+    return this.deathMatchSpawnService.findAll(query)
   }
 
   @Get(':id')

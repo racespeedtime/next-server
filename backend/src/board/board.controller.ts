@@ -21,8 +21,8 @@ export class BoardController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetBoardDto) {
-    return this.boardService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetBoardDto) {
+    return this.boardService.findAll(query)
   }
 
   @Get(':id')

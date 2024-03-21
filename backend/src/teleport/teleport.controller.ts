@@ -21,8 +21,8 @@ export class TeleportController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetTeleportDto) {
-    return this.teleportService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetTeleportDto) {
+    return this.teleportService.findAll(query)
   }
 
   @Get(':id')

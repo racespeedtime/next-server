@@ -22,8 +22,8 @@ export class RaceCpScriptController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetRaceCpScriptDto) {
-    return this.raceCpScriptService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetRaceCpScriptDto) {
+    return this.raceCpScriptService.findAll(query)
   }
 
   @Get(':id')

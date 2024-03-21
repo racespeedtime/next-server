@@ -59,6 +59,6 @@ export class RaceService {
     if (!race)
       throw new Error('race not found')
 
-    return this.raceRepository.remove(race)
+    return this.raceRepository.softRemove(race)
   }
 }

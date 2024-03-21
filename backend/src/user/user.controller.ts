@@ -36,8 +36,8 @@ export class UserController {
   @ApiOperation({ summary: '查找所有用户' })
   @Serialize(FindUserDto)
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetUserDto) {
-    return this.userService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetUserDto) {
+    return this.userService.findAll(query)
   }
 
   @ApiOperation({ summary: '查找用户' })

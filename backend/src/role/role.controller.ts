@@ -38,8 +38,8 @@ export class RoleController {
 
   @ApiOperation({ summary: '查找所有角色' })
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetRolesDto) {
-    return this.roleService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetRolesDto) {
+    return this.roleService.findAll(query)
   }
 
   @ApiOperation({ summary: '设置用户角色' })

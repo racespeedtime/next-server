@@ -57,14 +57,14 @@ import { DeathMatchWeapon } from './death-match/weapon/entities/weapon.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
-const authModules = [AuthModule, RoleModule, RouterModule]
+const authModules = [RoleModule, RouterModule, AuthModule]
 const authEntities = [Role, Router]
 
 const userModules = [
-  UserModule,
   UserSettingModule,
   UserLoginRecordModule,
   UserBanModule,
+  UserModule,
 ]
 const userEntities = [
   User,
@@ -73,22 +73,22 @@ const userEntities = [
   UserBan,
 ]
 
+const attireModules = [AttireUserModule, AttireModule]
 const attireEntities = [Attire, AttireUser]
-const attireModules = [AttireModule, AttireUserModule]
 
-const raceModules = [RaceModule, RaceCpModule, RaceCpScriptModule, RaceRecordModule]
+const raceModules = [RaceCpScriptModule, RaceCpModule, RaceRecordModule, RaceModule]
 const raceEntities = [Race, RaceCp, RaceCpScript, RaceRecord]
 
-const vehicleModules = [VehicleModule, VehicleAttachmentModule]
+const vehicleModules = [VehicleAttachmentModule, VehicleModule]
 const vehicleEntities = [Vehicle, VehicleAttachment]
 
-const teamModules = [TeamModule, TeamUserModule]
+const teamModules = [TeamUserModule, TeamModule]
 const teamEntities = [Team, TeamUser]
 
-const houseModules = [HouseModule, HouseModelModule]
+const houseModules = [HouseModelModule, HouseModule]
 const houseEntities = [House, HouseModel]
 
-const deathMatchModules = [DeathMatchModule, DeathMatchSpawnModule, DeathMatchWeaponModule]
+const deathMatchModules = [DeathMatchSpawnModule, DeathMatchWeaponModule, DeathMatchModule]
 const deathMatchEntities = [DeathMatch, DeathMatchSpawn, DeathMatchWeapon]
 
 const miscModules = [BoardModule, GoodsModule, TeleportModule, QuestionModule]

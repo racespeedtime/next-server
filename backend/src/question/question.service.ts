@@ -46,6 +46,6 @@ export class QuestionService {
     if (!question)
       throw new Error('question not found')
 
-    return this.questionRepository.remove(question)
+    return this.questionRepository.softRemove(question)
   }
 }

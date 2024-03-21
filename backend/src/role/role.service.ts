@@ -25,24 +25,22 @@ export class RoleService {
   }
 
   async findAll(payload: GetRolesDto) {
-    const queryParams: FindManyOptions<Role> = {
+    const findOptions: FindManyOptions<Role> = {
       where: conditionWhere({
         payload,
         mapping: { roleName: 'name', roleCode: 'code' },
-        omits: getConditionOmits<GetRolesDto>('isAll'),
+        omits: getConditionOmits('isAll'),
       }),
-
       order: {
         sort: 'desc',
       },
     }
     if (!payload.isAll) {
-      queryParams.skip = payload.skip
-      queryParams.take = payload.take
-      const [list, total] = await this.roleRepository.findAndCount()
-      return { list, total }
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
     }
-    return this.roleRepository.find(queryParams)
+    const [list, total] = await this.roleRepository.findAndCount()
+    return { list, total }
   }
 
   findAllByIds(ids: string[]) {

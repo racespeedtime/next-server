@@ -84,4 +84,8 @@ export class CreateBoardDto {
   @IsOptional()
   @ApiPropertyOptional()
   interiorId: number
+
+  @IsString()
+  @IsOptional()
+  userId: string
 }

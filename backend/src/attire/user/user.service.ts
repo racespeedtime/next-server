@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { AttireUser } from './entities/user.entity'
 import { CreateAttireUserDto } from './dto/create-user.dto'
 import { GetAttireUserDto } from './dto/get-user.dto'
@@ -17,15 +18,49 @@ export class AttireUserService {
   }
 
   async findAll(payload: GetAttireUserDto) {
-    const [list, total] = await this.attireUserRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<AttireUser> = {
+      where: conditionWhere<GetAttireUserDto>({
+        payload,
+        mapping: { userId: 'user.id' },
+        equals: ['userId'],
+        omits: getConditionOmits<GetAttireUserDto>('isAll'),
+      }),
+      relations: {
+        attire: true,
+        user: true,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.attireUserRepository.findAndCount(findOptions)
     return { list, total }
   }
 
-  findOne(id: string) {
-    return this.attireUserRepository.findOne({ where: { id } })
+  findOne(id: string, payload = new GetAttireUserDto()) {
+    const findOptions: FindOneOptions<AttireUser> = {
+      where: {
+        id,
+        ...conditionWhere({
+          payload,
+          mapping: { userId: 'user.id' },
+          equals: ['userId'],
+        }),
+      },
+      relations: {
+        attire: true,
+        user: true,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    return this.attireUserRepository.findOne(findOptions)
   }
 
   async update(id: string, updateAttireUserDto: UpdateAttireUserDto) {

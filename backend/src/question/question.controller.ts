@@ -21,8 +21,8 @@ export class QuestionController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetQuestionDto) {
-    return this.questionService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetQuestionDto) {
+    return this.questionService.findAll(query)
   }
 
   @Get(':id')

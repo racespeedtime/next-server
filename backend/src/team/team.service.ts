@@ -46,6 +46,6 @@ export class TeamService {
     if (!team)
       throw new Error('team not found')
 
-    return this.teamRepository.remove(team)
+    return this.teamRepository.softRemove(team)
   }
 }

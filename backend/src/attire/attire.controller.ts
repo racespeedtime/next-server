@@ -21,8 +21,8 @@ export class AttireController {
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetAttireDto) {
-    return this.attireService.findAll(params)
+  findAll(@Query(new PaginatePipe()) query: GetAttireDto) {
+    return this.attireService.findAll(query)
   }
 
   @Get(':id')

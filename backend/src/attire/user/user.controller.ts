@@ -3,40 +3,43 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
 import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
+import { Serialize } from 'src/common/decorators/serialize.decorator'
 import { AttireUserService } from './user.service'
 import { CreateAttireUserDto } from './dto/create-user.dto'
 import { UpdateAttireUserDto } from './dto/update-user.dto'
 import { GetAttireUserDto } from './dto/get-user.dto'
+import { FindAttireUserDto } from './dto/find-user.dto'
 
 @ApiTags('attire/user')
 @ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('attire/user')
 export class AttireUserController {
-  constructor(private readonly userService: AttireUserService) {}
+  constructor(private readonly attireUserService: AttireUserService) {}
 
   @Post()
   create(@Body() createUserDto: CreateAttireUserDto) {
-    return this.userService.create(createUserDto)
+    return this.attireUserService.create(createUserDto)
   }
 
   @Get()
-  findAll(@Query(new PaginatePipe()) params: GetAttireUserDto) {
-    return this.userService.findAll(params)
+  @Serialize(FindAttireUserDto)
+  findAll(@Query(new PaginatePipe()) query: GetAttireUserDto) {
+    return this.attireUserService.findAll(query)
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(id)
+    return this.attireUserService.findOne(id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateAttireUserDto) {
-    return this.userService.update(id, updateUserDto)
+    return this.attireUserService.update(id, updateUserDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(id)
+    return this.attireUserService.remove(id)
   }
 }
