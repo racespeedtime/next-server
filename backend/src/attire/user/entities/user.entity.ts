@@ -37,6 +37,9 @@ export class AttireUser {
   @Column({ type: 'double', default: 1.0, comment: 'sZ' })
   sZ: number
 
+  @Column({ default: true, comment: '是否启用' })
+  isEnabled: boolean
+
   @CreateDateColumn()
   createdAt: Date
 

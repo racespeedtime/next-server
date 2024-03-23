@@ -19,7 +19,7 @@ export class PaginateDto {
   @ApiPropertyOptional()
   @IsBoolean()
   @IsOptional()
-  @Transform(value => !!value)
+  @Transform(({ value }) => value === 'true')
   isAll?: boolean
 
   // 内部使用

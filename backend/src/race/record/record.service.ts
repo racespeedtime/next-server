@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateRaceRecordDto } from './dto/create-record.dto'
 import { UpdateRaceRecordDto } from './dto/update-record.dto'
 import { GetRaceRecordDto } from './dto/get-record.dto'
@@ -17,15 +18,35 @@ export class RaceRecordService {
   }
 
   async findAll(payload: GetRaceRecordDto) {
-    const [list, total] = await this.raceRecordRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<RaceRecord> = {
+      where: conditionWhere<GetRaceRecordDto>({
+        payload,
+        equals: ['raceId', 'userId'],
+        mapping: { raceId: 'race.id', userId: 'user.id' },
+        omits: getConditionOmits<GetRaceRecordDto>(),
+      }),
+      order: {
+        updatedAt: 'DESC',
+        record: 'ASC',
+      },
+      relations: {
+        race: !payload.raceId && !payload.isAll,
+        user: !payload.userId && !payload.isAll,
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.raceRecordRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.raceRecordRepository.findOne({ where: { id } })
+    return this.raceRecordRepository.findOne({
+      where: { id },
+      relations: { race: true, user: true },
+    })
   }
 
   async update(id: string, updateRaceRecordDto: UpdateRaceRecordDto) {

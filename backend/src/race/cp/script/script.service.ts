@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateRaceCpScriptDto } from './dto/create-script.dto'
 import { UpdateRaceCpScriptDto } from './dto/update-script.dto'
 import { GetRaceCpScriptDto } from './dto/get-script.dto'
@@ -17,10 +18,22 @@ export class RaceCpScriptService {
   }
 
   async findAll(payload: GetRaceCpScriptDto) {
-    const [list, total] = await this.raceCpScriptRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<RaceCpScript> = {
+      where: conditionWhere<GetRaceCpScriptDto>({
+        payload,
+        equals: ['raceId', 'checkpointId'],
+        mapping: { raceId: 'race.id', checkpointId: 'checkpoint.id' },
+        omits: getConditionOmits<GetRaceCpScriptDto>(),
+      }),
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.raceCpScriptRepository.findAndCount(findOptions)
     return { list, total }
   }
 

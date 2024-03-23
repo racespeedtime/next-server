@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateTeamDto } from './dto/create-team.dto'
 import { UpdateTeamDto } from './dto/update-team.dto'
 import { GetTeamDto } from './dto/get-team.dto'
@@ -17,15 +18,35 @@ export class TeamService {
   }
 
   async findAll(payload: GetTeamDto) {
-    const [list, total] = await this.teamRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<Team> = {
+      where: conditionWhere<GetTeamDto>({
+        payload,
+        mapping: { userId: 'user.id' },
+        equals: ['userId'],
+        omits: getConditionOmits<GetTeamDto>(),
+      }),
+      relations: {
+        user: !payload.isAll && !payload.userId,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.teamRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.teamRepository.findOne({ where: { id } })
+    return this.teamRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+      },
+    })
   }
 
   async update(id: string, updateTeamDto: UpdateTeamDto) {

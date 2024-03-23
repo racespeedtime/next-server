@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateTeleportDto } from './dto/create-teleport.dto'
 import { UpdateTeleportDto } from './dto/update-teleport.dto'
 import { GetTeleportDto } from './dto/get-teleport.dto'
@@ -17,16 +18,26 @@ export class TeleportService {
   }
 
   async findAll(payload: GetTeleportDto) {
-    const [list, total] = await this.teleportRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
+    const findOptions: FindManyOptions<Teleport> = {
+      where: conditionWhere<GetTeleportDto>({
+        payload,
+        mapping: { userId: 'user.id' },
+        equals: ['userId'],
+        omits: getConditionOmits<GetTeleportDto>(),
+      }),
       relations: {
-        user: true,
+        user: !payload.isAll && !payload.userId,
+        house: !payload.isAll,
       },
       order: {
-        createdAt: 'DESC',
+        updatedAt: 'DESC',
       },
-    })
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.teleportRepository.findAndCount(findOptions)
     return { list, total }
   }
 
@@ -36,6 +47,7 @@ export class TeleportService {
         where: { id },
         relations: {
           user: true,
+          house: true,
         },
       },
     )

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class CreateAttireUserDto {
   @IsNumber()
@@ -53,4 +53,9 @@ export class CreateAttireUserDto {
   @IsString()
   @ApiProperty()
   userId: string
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional()
+  isEnabled: boolean
 }

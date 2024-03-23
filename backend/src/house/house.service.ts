@@ -27,6 +27,8 @@ export class HouseService {
     const findOptions: FindManyOptions<House> = {
       where: conditionWhere<GetHouseDto>({
         payload,
+        mapping: { userId: 'user.id' },
+        equals: ['userId'],
         omits: getConditionOmits<GetHouseDto>(),
       }),
       relations: {

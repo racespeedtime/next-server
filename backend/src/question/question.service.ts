@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateQuestionDto } from './dto/create-question.dto'
 import { UpdateQuestionDto } from './dto/update-question.dto'
 import { GetQuestionDto } from './dto/get-question.dto'
@@ -17,10 +18,20 @@ export class QuestionService {
   }
 
   async findAll(payload: GetQuestionDto) {
-    const [list, total] = await this.questionRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<Question> = {
+      where: conditionWhere<GetQuestionDto>({
+        payload,
+        omits: getConditionOmits<GetQuestionDto>(),
+      }),
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.questionRepository.findAndCount(findOptions)
     return { list, total }
   }
 

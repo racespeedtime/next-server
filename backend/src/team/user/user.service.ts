@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateTeamUserDto } from './dto/create-user.dto'
 import { UpdateTeamUserDto } from './dto/update-user.dto'
 import { GetTeamUserDto } from './dto/get-user.dto'
@@ -17,10 +18,27 @@ export class TeamUserService {
   }
 
   async findAll(payload: GetTeamUserDto) {
-    const [list, total] = await this.teamUserRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<TeamUser> = {
+      where: conditionWhere<GetTeamUserDto>({
+        payload,
+        mapping: { userId: 'user.id', teamId: 'team.id' },
+        equals: ['userId', 'teamId'],
+        omits: getConditionOmits<GetTeamUserDto>(),
+      }),
+      relations: {
+        user: !payload.isAll && !payload.userId,
+        team: !payload.isAll && !payload.teamId,
+      },
+      order: {
+        isAdmin: 'DESC',
+        createdAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.teamUserRepository.findAndCount(findOptions)
     return { list, total }
   }
 

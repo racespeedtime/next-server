@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateRaceDto } from './dto/create-race.dto'
 import { UpdateRaceDto } from './dto/update-race.dto'
 import { GetRaceDto } from './dto/get-race.dto'
@@ -17,16 +18,26 @@ export class RaceService {
   }
 
   async findAll(payload: GetRaceDto) {
-    const [list, total] = await this.raceRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
+    const findOptions: FindManyOptions<Race> = {
+      where: conditionWhere<GetRaceDto>({
+        payload,
+        mapping: { userId: 'user.id' },
+        equals: ['userId'],
+        omits: getConditionOmits<GetRaceDto>(),
+      }),
       relations: {
-        user: true,
+        user: !payload.isAll && !payload.userId,
+        house: !payload.isAll,
       },
       order: {
-        createdAt: 'DESC',
+        updatedAt: 'DESC',
       },
-    })
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.raceRepository.findAndCount(findOptions)
     return { list, total }
   }
 
@@ -36,6 +47,7 @@ export class RaceService {
         where: { id },
         relations: {
           user: true,
+          house: true,
         },
       },
     )

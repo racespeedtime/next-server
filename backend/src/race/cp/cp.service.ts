@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { RaceCp } from './entities/cp.entity'
 import { CreateRaceCpDto } from './dto/create-cp.dto'
 import { GetRaceCpDto } from './dto/get-cp.dto'
@@ -17,15 +18,35 @@ export class RaceCpService {
   }
 
   async findAll(payload: GetRaceCpDto) {
-    const [list, total] = await this.raceCpRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<RaceCp> = {
+      where: conditionWhere<GetRaceCpDto>({
+        payload,
+        equals: ['raceId'],
+        mapping: { raceId: 'race.id' },
+        omits: getConditionOmits<GetRaceCpDto>(),
+      }),
+      relations: {
+        race: !payload.raceId && !payload.isAll,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.raceCpRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.raceCpRepository.findOne({ where: { id } })
+    return this.raceCpRepository.findOne({
+      where: { id },
+      relations: {
+        scripts: true,
+      },
+    })
   }
 
   async update(id: string, updateRaceCpDto: UpdateRaceCpDto) {
