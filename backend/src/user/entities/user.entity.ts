@@ -77,7 +77,7 @@ export class User {
   setting: UserSetting
 
   @OneToMany(() => AttireUser, attire => attire.user)
-  attires: AttireUser
+  attires: AttireUser[]
 
   @OneToMany(() => Board, board => board.user)
   boards: Board[]

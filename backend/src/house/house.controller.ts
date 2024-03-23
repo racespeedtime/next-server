@@ -7,6 +7,7 @@ import { HouseService } from './house.service'
 import { CreateHouseDto } from './dto/create-house.dto'
 import { UpdateHouseDto } from './dto/update-house.dto'
 import { GetHouseDto } from './dto/get-house.dto'
+import { BuySellHouseDto } from './dto/buy-sell-house.dto'
 
 @ApiTags('house')
 @ApiBearerAuth()
@@ -38,5 +39,15 @@ export class HouseController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.houseService.remove(id)
+  }
+
+  @Post('buy')
+  buy(@Body() buyHouseDto: BuySellHouseDto) {
+    return this.houseService.buy(buyHouseDto)
+  }
+
+  @Post('sell')
+  sell(@Body() sellHouseDto: BuySellHouseDto) {
+    return this.houseService.sell(sellHouseDto)
   }
 }

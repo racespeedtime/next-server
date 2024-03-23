@@ -26,10 +26,10 @@ export class RoleService {
 
   async findAll(payload: GetRolesDto) {
     const findOptions: FindManyOptions<Role> = {
-      where: conditionWhere({
+      where: conditionWhere<GetRolesDto>({
         payload,
         mapping: { roleName: 'name', roleCode: 'code' },
-        omits: getConditionOmits('isAll'),
+        omits: getConditionOmits(),
       }),
       order: {
         sort: 'desc',

@@ -8,5 +8,6 @@ import { AttireUser } from './entities/user.entity'
   controllers: [AttireUserController],
   providers: [AttireUserService],
   imports: [TypeOrmModule.forFeature([AttireUser])],
+  exports: [AttireUserService],
 })
 export class AttireUserModule {}

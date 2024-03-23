@@ -8,5 +8,6 @@ import { HouseModel } from './entities/model.entity'
   controllers: [HouseModelController],
   providers: [HouseModelService],
   imports: [TypeOrmModule.forFeature([HouseModel])],
+  exports: [HouseModelService],
 })
 export class HouseModelModule {}

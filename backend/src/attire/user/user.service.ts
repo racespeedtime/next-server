@@ -23,11 +23,11 @@ export class AttireUserService {
         payload,
         mapping: { userId: 'user.id' },
         equals: ['userId'],
-        omits: getConditionOmits<GetAttireUserDto>('isAll'),
+        omits: getConditionOmits<GetAttireUserDto>(),
       }),
       relations: {
         attire: true,
-        user: true,
+        user: !payload.userId,
       },
       order: {
         updatedAt: 'DESC',
@@ -42,7 +42,7 @@ export class AttireUserService {
     return { list, total }
   }
 
-  findOne(id: string, payload = new GetAttireUserDto()) {
+  async findOne(id: string, payload = new GetAttireUserDto()) {
     const findOptions: FindOneOptions<AttireUser> = {
       where: {
         id,
@@ -60,7 +60,10 @@ export class AttireUserService {
         updatedAt: 'DESC',
       },
     }
-    return this.attireUserRepository.findOne(findOptions)
+    const attireUser = await this.attireUserRepository.findOne(findOptions)
+    if (!attireUser)
+      throw new Error('attireUser user not found')
+    return attireUser
   }
 
   async update(id: string, updateAttireUserDto: UpdateAttireUserDto) {
@@ -78,9 +81,16 @@ export class AttireUserService {
 
   async remove(id: string) {
     const attireUser = await this.findOne(id)
-    if (!attireUser)
-      throw new Error('attireUser user not found')
-
     return this.attireUserRepository.remove(attireUser)
+  }
+
+  countSameAttires(attireId: string) {
+    return this.attireUserRepository.count({
+      where: {
+        attire: {
+          id: attireId,
+        },
+      },
+    })
   }
 }

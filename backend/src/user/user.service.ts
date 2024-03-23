@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { In, Repository } from 'typeorm'
+import { FindOptionsRelations, In, Repository } from 'typeorm'
 import { LoginDto } from 'src/auth/dto/login.dto'
 import * as bcrypt from 'bcrypt'
 import { RoleCode } from 'src/common/enums/role.enum'
@@ -47,10 +47,10 @@ export class UserService {
     return { list, total }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, findRelations?: FindOptionsRelations<User>) {
     const user = await this.userRepository.findOne({
       where: { id, deletedAt: null },
-      relations: {
+      relations: findRelations || {
         roles: true,
       },
     })
@@ -59,7 +59,7 @@ export class UserService {
     return user
   }
 
-  async update(user: string | User, updateUserDto: UpdateUserDto) {
+  async update(user: string | User, updateUserDto?: UpdateUserDto) {
     let userEntity = user
     if (typeof user === 'string') {
       userEntity = await this.findOne(user)

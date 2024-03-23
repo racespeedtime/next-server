@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateDeathMatchDto } from './dto/create-death-match.dto'
 import { UpdateDeathMatchDto } from './dto/update-death-match.dto'
 import { GetDeathMatchDto } from './dto/get-death-match.dto'
@@ -17,15 +18,37 @@ export class DeathMatchService {
   }
 
   async findAll(payload: GetDeathMatchDto) {
-    const [list, total] = await this.deathMatchRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<DeathMatch> = {
+      where: conditionWhere<GetDeathMatchDto>({
+        payload,
+        omits: getConditionOmits<GetDeathMatchDto>(),
+      }),
+      relations: {
+        spawns: true,
+        weapons: true,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.deathMatchRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.deathMatchRepository.findOne({ where: { id } })
+    return this.deathMatchRepository.findOne(
+      {
+        where: { id },
+        relations: {
+          spawns: true,
+          weapons: true,
+        },
+      },
+    )
   }
 
   async update(id: string, updateDeathMatchDto: UpdateDeathMatchDto) {

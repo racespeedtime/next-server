@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { UpdateBoardDto } from './dto/update-board.dto'
 import { CreateBoardDto } from './dto/create-board.dto'
 import { Board } from './entities/board.entity'
@@ -17,15 +18,35 @@ export class BoardService {
   }
 
   async findAll(payload: GetBoardDto) {
-    const [list, total] = await this.boardRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<Board> = {
+      where: conditionWhere<GetBoardDto>({
+        payload,
+        mapping: { userId: 'user.id' },
+        equals: ['userId'],
+        omits: getConditionOmits<GetBoardDto>(),
+      }),
+      relations: {
+        user: true,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.boardRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.boardRepository.findOne({ where: { id } })
+    return this.boardRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+      },
+    })
   }
 
   async update(id: string, updateBoardDto: UpdateBoardDto) {

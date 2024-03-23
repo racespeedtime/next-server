@@ -20,9 +20,9 @@ export class PaginateDto {
   @IsBoolean()
   @IsOptional()
   @Transform(value => !!value)
-  isAll: boolean
+  isAll?: boolean
 
   // 内部使用
-  skip: number
-  take: number
+  skip?: number
+  take?: number
 }

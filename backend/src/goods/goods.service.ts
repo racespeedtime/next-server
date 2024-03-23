@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateGoodDto } from './dto/create-good.dto'
 import { UpdateGoodDto } from './dto/update-good.dto'
 import { Goods } from './entities/goods.entity'
@@ -17,15 +18,35 @@ export class GoodsService {
   }
 
   async findAll(payload: GetGoodsDto) {
-    const [list, total] = await this.goodsRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<Goods> = {
+      where: conditionWhere<GetGoodsDto>({
+        payload,
+        mapping: { userId: 'user.id' },
+        equals: ['userId'],
+        omits: getConditionOmits<GetGoodsDto>(),
+      }),
+      relations: {
+        user: !payload.isAll && !payload.userId,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.goodsRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.goodsRepository.findOne({ where: { id } })
+    return this.goodsRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+      },
+    })
   }
 
   async update(id: string, updateGoodsDto: UpdateGoodDto) {

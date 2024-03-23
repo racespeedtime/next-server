@@ -2,7 +2,7 @@ import { omit, set } from 'lodash'
 import { In, Like, SelectQueryBuilder } from 'typeorm'
 
 export function getConditionOmits<T>(...additionOmits: Array<keyof T>) {
-  return ['pageNum', 'pageSize', 'skip', 'take', ...additionOmits] as Array<
+  return ['pageNum', 'pageSize', 'skip', 'take', 'isAll', ...additionOmits] as Array<
     keyof T
   >
 }

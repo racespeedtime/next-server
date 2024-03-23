@@ -7,6 +7,8 @@ import { AttireService } from './attire.service'
 import { CreateAttireDto } from './dto/create-attire.dto'
 import { UpdateAttireDto } from './dto/update-attire.dto'
 import { GetAttireDto } from './dto/get-attire.dto'
+import { BuyAttireDto } from './dto/buy-attire.dto'
+import { SellAttireDto } from './dto/sell-attire.dto'
 
 @ApiTags('attire')
 @ApiBearerAuth()
@@ -38,5 +40,15 @@ export class AttireController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.attireService.remove(id)
+  }
+
+  @Post('buy')
+  buy(@Body() buyHouseDto: BuyAttireDto) {
+    return this.attireService.buy(buyHouseDto)
+  }
+
+  @Post('sell')
+  sell(@Body() sellHouseDto: SellAttireDto) {
+    return this.attireService.sell(sellHouseDto)
   }
 }

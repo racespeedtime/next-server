@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateHouseModelDto } from './dto/create-model.dto'
 import { UpdateHouseModelDto } from './dto/update-model.dto'
 import { GetHouseModelDto } from './dto/get-model.dto'
@@ -17,10 +18,22 @@ export class HouseModelService {
   }
 
   async findAll(payload: GetHouseModelDto) {
-    const [list, total] = await this.houseModelRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<HouseModel> = {
+      where: conditionWhere<GetHouseModelDto>({
+        payload,
+        equals: ['houseId', 'type'],
+        mapping: { houseId: 'house.id' },
+        omits: getConditionOmits<GetHouseModelDto>(),
+      }),
+      order: {
+        updatedAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.houseModelRepository.findAndCount(findOptions)
     return { list, total }
   }
 
@@ -47,5 +60,12 @@ export class HouseModelService {
       throw new Error('houseModel not found')
 
     return this.houseModelRepository.remove(houseModel)
+  }
+
+  async getSellPrice(id: string) {
+    const houseModels = await this.findAll({ houseId: id, type: 'sell' })
+    if (!houseModels.list.length)
+      throw new BadRequestException('房屋未定义出售价格')
+    return Math.abs(+houseModels.list[0].args.split(',')[0])
   }
 }
