@@ -5,6 +5,8 @@ import { createRoleApi } from './system/role'
 import { createUserApi } from './system/user'
 import { createRaceApi } from './race'
 import { createVehicleApi } from './vehicle'
+import { createHouseApi } from './house'
+import { createTeleportApi } from './teleport'
 
 export function createAllApi(instance: AxiosInstance) {
   const request: CustomAxiosRequest = {
@@ -44,5 +46,7 @@ export function createAllApi(instance: AxiosInstance) {
     userApi: createUserApi(request),
     raceApi: createRaceApi(request),
     vehicleApi: createVehicleApi(request),
+    houseApi: createHouseApi(request),
+    teleportApi: createTeleportApi(request),
   }
 }

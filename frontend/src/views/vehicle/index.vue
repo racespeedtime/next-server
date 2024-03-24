@@ -1,6 +1,8 @@
 <script setup lang="tsx">
+import { ElSwitch } from 'element-plus'
 import { vehicleApi } from '@/api'
 import { useTable } from '@/composables/table/useTable'
+import UserSelector from '@/components/Selector/UserSelector.vue'
 
 function handleUpdate(row: any) {
   throw new Error('Function not implemented.')
@@ -10,9 +12,21 @@ function handleDelete(row: any) {
   throw new Error('Function not implemented.')
 }
 
-const { Table, getList: handleListPage } = useTable({
+const { Table, getList: handleListPage, searchForm } = useTable({
   searchItems: [
-    { label: '拥有者', prop: 'username', type: 'input' },
+    {
+      label: '拥有者',
+      prop: 'userId',
+      render() {
+        return (
+          <UserSelector
+            v-model={searchForm.value.userId}
+            placeholder="请选择拥有者"
+            style="width: 100%"
+          />
+        )
+      },
+    },
     { label: '模型Id', prop: 'modelId', type: 'number' },
     { label: '描述', prop: 'description', type: 'input' },
     {
@@ -24,6 +38,7 @@ const { Table, getList: handleListPage } = useTable({
         { label: '否', value: false },
       ],
     },
+    { label: '车牌号', prop: 'plateNumber', type: 'input' },
   ],
   columns: [
     {
@@ -72,8 +87,8 @@ const { Table, getList: handleListPage } = useTable({
       align: 'center',
     },
     {
-      label: 'angle',
-      prop: '角度',
+      label: '角度',
+      prop: 'angle',
       minWidth: '200px',
       align: 'center',
     },
@@ -110,7 +125,7 @@ const { Table, getList: handleListPage } = useTable({
       minWidth: '120px',
       align: 'center',
       render({ row }) {
-        return <span>{row.isLocked ? '是' : '否'}</span>
+        return <ElSwitch v-model={row.isLocked}></ElSwitch>
       },
     },
     {

@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { raceApi } from '@/api'
 import { useTable } from '@/composables/table/useTable'
+import UserSelector from '@/components/Selector/UserSelector.vue'
 
 function handleUpdate(row: any) {
   throw new Error('Function not implemented.')
@@ -10,10 +11,22 @@ function handleDelete(row: any) {
   throw new Error('Function not implemented.')
 }
 
-const { Table, getList: handleListPage } = useTable({
+const { Table, getList: handleListPage, searchForm } = useTable({
   searchItems: [
     { label: '赛道名称', prop: 'name', type: 'input' },
-    { label: '赛道作者', prop: 'username', type: 'input' },
+    {
+      label: '赛道作者',
+      prop: 'userId',
+      render() {
+        return (
+          <UserSelector
+            v-model={searchForm.value.userId}
+            placeholder="请选择赛道作者"
+            style="width: 100%"
+          />
+        )
+      },
+    },
   ],
   columns: [
     {

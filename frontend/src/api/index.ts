@@ -1,6 +1,22 @@
 import { createAllApi } from 'shared/api'
 import instance from '@/utils/axios'
 
-const { menuApi, userApi, roleApi, raceApi, vehicleApi } = createAllApi(instance)
+const {
+  menuApi,
+  userApi,
+  roleApi,
+  raceApi,
+  vehicleApi,
+  houseApi,
+  teleportApi,
+} = createAllApi(instance)
 
-export { menuApi, userApi, roleApi, raceApi, vehicleApi }
+export {
+  menuApi,
+  userApi,
+  roleApi,
+  raceApi,
+  vehicleApi,
+  houseApi,
+  teleportApi,
+}

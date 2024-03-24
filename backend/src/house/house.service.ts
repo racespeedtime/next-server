@@ -28,7 +28,7 @@ export class HouseService {
       where: conditionWhere<GetHouseDto>({
         payload,
         mapping: { userId: 'user.id' },
-        equals: ['userId'],
+        equals: ['userId', 'relation'],
         omits: getConditionOmits<GetHouseDto>(),
       }),
       relations: {

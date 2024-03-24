@@ -229,12 +229,14 @@ const { Table, getList: handleListPage } = useTable({
       ],
     },
     {
-      type: 'datePicker',
-      prop: 'createdAt',
       label: '创建时间',
+      prop: 'createdAt',
+      type: 'datePicker',
       mapFields: ['createdAtStart', 'createdAtEnd'],
       props: {
         type: 'daterange',
+        format: 'YYYY-MM-DD',
+        valueFormat: 'YYYY-MM-DD',
       },
     },
   ],

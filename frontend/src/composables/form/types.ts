@@ -64,7 +64,7 @@ interface CommonFormItem extends ElFormItemProps {
 }
 
 export interface RenderFormItem extends CommonFormItem {
-  type: undefined
+  type?: undefined
   render: () => JSX.Element | null
 }
 
