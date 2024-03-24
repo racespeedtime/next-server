@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { FindOptionsRelations, In, Repository } from 'typeorm'
+import { FindManyOptions, FindOptionsRelations, In, Repository } from 'typeorm'
 import { LoginDto } from 'src/auth/dto/login.dto'
 import * as bcrypt from 'bcrypt'
 import { RoleCode } from 'src/common/enums/role.enum'
 import {
   conditionWhere,
   getConditionOmits,
+  getDateRangeOperator,
 } from 'src/common/utils/condition-where.utils'
 import { GetUserDto } from './dto/get-user.dto'
 import { User } from './entities/user.entity'
@@ -29,21 +30,25 @@ export class UserService {
   }
 
   async findAll(payload: GetUserDto) {
-    const [list, total] = await this.userRepository.findAndCount({
+    const findOptions: FindManyOptions<User> = {
       where: {
-        deletedAt: null,
         ...conditionWhere<GetUserDto>({
           payload,
-          omits: getConditionOmits(),
+          omits: getConditionOmits<GetUserDto>(),
         }),
+        deletedAt: null,
+        createdAt: getDateRangeOperator({ payload }),
       },
       relations: { roles: true },
-      skip: payload.skip,
-      take: payload.take,
       order: {
         createdAt: 'DESC',
       },
-    })
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.userRepository.findAndCount(findOptions)
     return { list, total }
   }
 

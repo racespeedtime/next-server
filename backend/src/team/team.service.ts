@@ -26,7 +26,7 @@ export class TeamService {
         omits: getConditionOmits<GetTeamDto>(),
       }),
       relations: {
-        user: !payload.isAll && !payload.userId,
+        user: !payload.isAll,
       },
       order: {
         updatedAt: 'DESC',

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits, getDateRangeOperator } from 'src/common/utils/condition-where.utils'
 import { CreateVehicleAttachmentDto } from './dto/create-attachment.dto'
 import { UpdateVehicleAttachmentDto } from './dto/update-attachment.dto'
 import { GetVehicleAttachmentDto } from './dto/get-attchment.dto'
@@ -17,15 +18,32 @@ export class VehicleAttachmentService {
   }
 
   async findAll(payload: GetVehicleAttachmentDto) {
-    const [list, total] = await this.vehicleAttachmentRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<VehicleAttachment> = {
+      where: {
+        ...conditionWhere<GetVehicleAttachmentDto>({
+          payload,
+          equals: ['vehicleId'],
+          mapping: { vehicleId: 'vehicle.id' },
+          omits: getConditionOmits<GetVehicleAttachmentDto>(),
+        }),
+      },
+      relations: { vehicle: !payload.isAll },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.vehicleAttachmentRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.vehicleAttachmentRepository.findOne({ where: { id } })
+    return this.vehicleAttachmentRepository.findOne({
+      where: { id },
+      relations: {
+        vehicle: true,
+      },
+    })
   }
 
   async update(id: string, updateVehicleAttachmentDto: UpdateVehicleAttachmentDto) {

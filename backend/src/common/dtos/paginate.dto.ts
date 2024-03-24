@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { IsBoolean, IsOptional, IsPositive, Max } from 'class-validator'
+import { IsBoolean, IsDateString, IsOptional, IsPositive, Max } from 'class-validator'
 
 export class PaginateDto {
   @ApiPropertyOptional()
@@ -21,6 +21,16 @@ export class PaginateDto {
   @IsOptional()
   @Transform(({ value }) => value === 'true')
   isAll?: boolean
+
+  @IsDateString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  createdAtStart?: Date
+
+  @IsDateString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  createdAtEnd?: Date
 
   // 内部使用
   skip?: number

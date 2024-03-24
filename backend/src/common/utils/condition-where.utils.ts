@@ -1,10 +1,27 @@
 import { omit, set } from 'lodash'
-import { In, Like, SelectQueryBuilder } from 'typeorm'
+import { Between, In, LessThanOrEqual, Like, MoreThanOrEqual, SelectQueryBuilder } from 'typeorm'
+
+export interface GetDateRangeOperatorOptions {
+  payload: Record<string, any>
+  startField?: string
+  endField?: string
+}
+export function getDateRangeOperator(options: GetDateRangeOperatorOptions) {
+  const { payload, startField = 'createdAtStart', endField = 'createdAtEnd' } = options
+  const start = startField && payload[startField]
+  const end = endField && payload[endField]
+
+  if (start && end)
+    return Between(start, end)
+  else if (start && !end)
+    return MoreThanOrEqual(start)
+  else if (!start && end)
+    return LessThanOrEqual(end)
+}
 
 export function getConditionOmits<T>(...additionOmits: Array<keyof T>) {
-  return ['pageNum', 'pageSize', 'skip', 'take', 'isAll', ...additionOmits] as Array<
-    keyof T
-  >
+  const paginateKeys = ['pageNum', 'pageSize', 'skip', 'take', 'isAll', 'createdAtStart', 'createdAtEnd']
+  return [...paginateKeys, ...additionOmits] as Array<keyof T>
 }
 
 export function conditionWhere<T extends object, E>(options: {
@@ -29,11 +46,11 @@ export function conditionWhere<T extends object, E>(options: {
   equals?: (keyof T)[]
   omits?: (keyof T)[]
 }) {
-  const { queryBuilder, payload, mapping, equals, omits } = options
+  const { queryBuilder, payload, mapping, equals, omits = getConditionOmits() } = options
 
   const final = {}
 
-  Object.keys(omits ? omit(payload, omits) : payload).forEach(
+  Object.keys(omit(payload, omits)).forEach(
     (field) => {
       let setKey = field
       if (mapping && mapping[field])

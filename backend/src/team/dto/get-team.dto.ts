@@ -7,4 +7,14 @@ export class GetTeamDto extends PaginateDto {
   @IsOptional()
   @ApiPropertyOptional()
   userId?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  shortName?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  fullName?: string
 }

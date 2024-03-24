@@ -21,6 +21,7 @@ export class QuestionService {
     const findOptions: FindManyOptions<Question> = {
       where: conditionWhere<GetQuestionDto>({
         payload,
+        equals: ['isEnabled'],
         omits: getConditionOmits<GetQuestionDto>(),
       }),
       order: {

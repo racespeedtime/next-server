@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getDateRangeOperator } from 'src/common/utils/condition-where.utils'
 import { UserLoginRecord } from './entities/login-record.entity'
 import { CreateUserLoginRecordDto } from './dto/create-login-record.dto'
 import { GetUserLoginRecordDto } from './dto/get-login-record.dto'
@@ -17,15 +18,35 @@ export class UserLoginRecordService {
   }
 
   async findAll(payload: GetUserLoginRecordDto) {
-    const [list, total] = await this.userLoginRecordRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-    })
+    const findOptions: FindManyOptions<UserLoginRecord> = {
+      where: {
+        ...conditionWhere<GetUserLoginRecordDto>({
+          payload,
+          equals: ['userId'],
+          mapping: { userId: 'user.id' },
+        }),
+        createdAt: getDateRangeOperator({ payload }),
+      },
+      relations: {
+        user: !payload.userId && !payload.isAll,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.userLoginRecordRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
-    return this.userLoginRecordRepository.findOne({ where: { id } })
+    return this.userLoginRecordRepository.findOne({
+      where: { id },
+      relations: { user: true },
+    })
   }
 
   async update(id: string, updateUserLoginRecordDto: UpdateUserLoginRecordDto) {

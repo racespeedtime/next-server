@@ -22,11 +22,11 @@ export class RaceService {
       where: conditionWhere<GetRaceDto>({
         payload,
         mapping: { userId: 'user.id' },
-        equals: ['userId'],
+        equals: ['userId', 'isEnabled'],
         omits: getConditionOmits<GetRaceDto>(),
       }),
       relations: {
-        user: !payload.isAll && !payload.userId,
+        user: !payload.isAll,
         house: !payload.isAll,
       },
       order: {

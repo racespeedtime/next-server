@@ -26,7 +26,7 @@ export class GoodsService {
         omits: getConditionOmits<GetGoodsDto>(),
       }),
       relations: {
-        user: !payload.isAll && !payload.userId,
+        user: !payload.isAll,
       },
       order: {
         updatedAt: 'DESC',

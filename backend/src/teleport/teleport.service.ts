@@ -22,11 +22,11 @@ export class TeleportService {
       where: conditionWhere<GetTeleportDto>({
         payload,
         mapping: { userId: 'user.id' },
-        equals: ['userId'],
+        equals: ['userId', 'interiorId', 'isEnabled', 'isSystem'],
         omits: getConditionOmits<GetTeleportDto>(),
       }),
       relations: {
-        user: !payload.isAll && !payload.userId,
+        user: !payload.isAll,
         house: !payload.isAll,
       },
       order: {

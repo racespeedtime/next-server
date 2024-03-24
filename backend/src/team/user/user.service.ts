@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { FindManyOptions, Repository } from 'typeorm'
+import { Between, FindManyOptions, Repository } from 'typeorm'
 import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateTeamUserDto } from './dto/create-user.dto'
 import { UpdateTeamUserDto } from './dto/update-user.dto'
@@ -22,12 +22,12 @@ export class TeamUserService {
       where: conditionWhere<GetTeamUserDto>({
         payload,
         mapping: { userId: 'user.id', teamId: 'team.id' },
-        equals: ['userId', 'teamId'],
+        equals: ['userId', 'teamId', 'isAdmin'],
         omits: getConditionOmits<GetTeamUserDto>(),
       }),
       relations: {
-        user: !payload.isAll && !payload.userId,
-        team: !payload.isAll && !payload.teamId,
+        user: !payload.isAll,
+        team: !payload.isAll,
       },
       order: {
         isAdmin: 'DESC',

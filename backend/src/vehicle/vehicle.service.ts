@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
+import { conditionWhere, getConditionOmits, getDateRangeOperator } from 'src/common/utils/condition-where.utils'
 import { UpdateVehicleDto } from './dto/update-vehicle.dto'
 import { CreateVehicleDto } from './dto/create-vehicle.dto'
 import { GetVehicleDto } from './dto/get-vehicle.dto'
@@ -17,19 +18,36 @@ export class VehicleService {
   }
 
   async findAll(payload: GetVehicleDto) {
-    const [list, total] = await this.vehicleRepository.findAndCount({
-      skip: payload.skip,
-      take: payload.take,
-      relations: {
-        user: true,
+    const findOptions: FindManyOptions<Vehicle> = {
+      where: {
+        ...conditionWhere<GetVehicleDto>({
+          payload,
+          equals: ['userId', 'modelId', 'isLocked', 'interiorId', 'worldId'],
+          mapping: { userId: 'user.id' },
+          omits: getConditionOmits<GetVehicleDto>(),
+        }),
+        deletedAt: null,
+        createdAt: getDateRangeOperator({ payload }),
       },
-    })
+      relations: { user: !payload.isAll },
+      order: {
+        createdAt: 'DESC',
+      },
+    }
+    if (!payload.isAll) {
+      findOptions.skip = payload.skip
+      findOptions.take = payload.take
+    }
+    const [list, total] = await this.vehicleRepository.findAndCount(findOptions)
     return { list, total }
   }
 
   findOne(id: string) {
     return this.vehicleRepository.findOne({
-      where: { id },
+      where: {
+        id,
+        deletedAt: null,
+      },
       relations: {
         user: true,
       },

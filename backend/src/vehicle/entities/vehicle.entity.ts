@@ -41,7 +41,7 @@ export class Vehicle {
   @Column({ nullable: true, type: 'double', comment: '售价' })
   price: number
 
-  @Column({ nullable: true, comment: '可能是喷漆' })
+  @Column({ nullable: true, comment: '贴图,比如elegy有0,1,2' })
   paintjob: number
 
   @Column({ nullable: true, comment: '描述' })

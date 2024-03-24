@@ -32,7 +32,7 @@ export class HouseService {
         omits: getConditionOmits<GetHouseDto>(),
       }),
       relations: {
-        user: !payload.isAll && !payload.userId,
+        user: !payload.isAll,
       },
       order: {
         updatedAt: 'DESC',

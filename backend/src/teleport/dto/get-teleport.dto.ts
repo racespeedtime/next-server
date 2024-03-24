@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { IsBoolean, IsOptional, IsString } from 'class-validator'
+import { Transform } from 'class-transformer'
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator'
 import { PaginateDto } from 'src/common/dtos/paginate.dto'
 
 export class GetTeleportDto extends PaginateDto {
@@ -11,10 +12,22 @@ export class GetTeleportDto extends PaginateDto {
   @IsBoolean()
   @IsOptional()
   @ApiPropertyOptional()
+  @Transform(({ value }) => value === 'true')
   isSystem?: boolean
 
   @IsBoolean()
   @IsOptional()
   @ApiPropertyOptional()
+  @Transform(({ value }) => value === 'true')
   isEnabled?: boolean
+
+  @IsNumber()
+  @IsOptional()
+  @ApiPropertyOptional()
+  interiorId?: number
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  name?: string
 }
