@@ -25,12 +25,14 @@ export class HouseService {
 
   async findAll(payload: GetHouseDto) {
     const findOptions: FindManyOptions<House> = {
-      where: conditionWhere<GetHouseDto>({
-        payload,
-        mapping: { userId: 'user.id' },
-        equals: ['userId', 'relation'],
-        omits: getConditionOmits<GetHouseDto>(),
-      }),
+      where: {
+        ...conditionWhere<GetHouseDto>({
+          payload,
+          mapping: { userId: 'user.id' },
+          equals: ['userId', 'relation'],
+          omits: getConditionOmits<GetHouseDto>(),
+        }),
+      },
       relations: {
         user: !payload.isAll,
       },
@@ -41,7 +43,18 @@ export class HouseService {
     if (!payload.isAll) {
       findOptions.skip = payload.skip
       findOptions.take = payload.take
+
+      const [list, total] = await this.houseRepository.findAndCount(findOptions)
+
+      const prices = await this.houseModelService.getSellPrice(list.map(item => item.id))
+
+      const withPriceHouses = list.map((item, index) => {
+        item.price = prices[index] || null
+        return item
+      })
+      return { list: withPriceHouses, total }
     }
+
     const [list, total] = await this.houseRepository.findAndCount(findOptions)
     return { list, total }
   }
@@ -55,6 +68,9 @@ export class HouseService {
     })
     if (!house)
       throw new BadRequestException('房子不存在')
+
+    const price = await this.houseModelService.getSellPrice(house.id)
+    house.price = price || null
     return house
   }
 

@@ -38,6 +38,8 @@ export class House {
   @OneToOne(() => Race)
   race: Race
 
+  price: number
+
   @CreateDateColumn()
   createdAt: Date
 

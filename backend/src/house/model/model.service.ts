@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { FindManyOptions, Repository } from 'typeorm'
+import { FindManyOptions, In, Repository } from 'typeorm'
 import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateHouseModelDto } from './dto/create-model.dto'
 import { UpdateHouseModelDto } from './dto/update-model.dto'
@@ -62,10 +62,22 @@ export class HouseModelService {
     return this.houseModelRepository.remove(houseModel)
   }
 
-  async getSellPrice(id: string) {
-    const houseModels = await this.findAll({ houseId: id, type: 'sell' })
-    if (!houseModels.list.length)
+  async getSellPrice(id: string): Promise<number>
+  async getSellPrice(id: string[]): Promise<number[]>
+  async getSellPrice(id: string | string[]) {
+    const isArrayId = Array.isArray(id)
+
+    const sellModels = await this.houseModelRepository.find({
+      where: {
+        house: { id: isArrayId ? In(id) : id },
+        type: 'sell',
+      },
+    })
+    if (!sellModels)
       throw new BadRequestException('房屋未定义出售价格')
-    return Math.abs(+houseModels.list[0].args.split(',')[0])
+
+    if (isArrayId)
+      return sellModels.map(item => Math.abs(+item.args.split(',')[0]))
+    return Math.abs(+sellModels[0].args.split(',')[0])
   }
 }

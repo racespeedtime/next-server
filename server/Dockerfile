@@ -29,6 +29,8 @@ ENV NODE_ENV=production
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 
+VOLUME /app
+
 EXPOSE 7777
 
 ENTRYPOINT ./omp-server
