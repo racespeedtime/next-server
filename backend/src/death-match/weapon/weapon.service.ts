@@ -26,7 +26,7 @@ export class DeathMatchWeaponService {
         omits: getConditionOmits<GetDeathMatchWeaponDto>(),
       }),
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

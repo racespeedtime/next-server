@@ -29,7 +29,7 @@ export class BoardService {
         user: true,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

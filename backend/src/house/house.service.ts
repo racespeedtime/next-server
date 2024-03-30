@@ -37,7 +37,7 @@ export class HouseService {
         user: !payload.isAll,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

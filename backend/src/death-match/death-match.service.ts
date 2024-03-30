@@ -28,7 +28,7 @@ export class DeathMatchService {
         weapons: true,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

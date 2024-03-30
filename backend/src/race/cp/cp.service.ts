@@ -29,7 +29,7 @@ export class RaceCpService {
         race: !payload.raceId && !payload.isAll,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

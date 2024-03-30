@@ -26,7 +26,7 @@ export class HouseModelService {
         omits: getConditionOmits<GetHouseModelDto>(),
       }),
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

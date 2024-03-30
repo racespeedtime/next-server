@@ -1,3 +1,4 @@
+import { RouterType } from 'src/common/enums/router.enum'
 import { Role } from 'src/role/entities/role.entity'
 import {
   Column,
@@ -27,8 +28,8 @@ export class Router {
   @Column({ default: 0 })
   sort: number
 
-  @Column({ type: 'tinyint', width: 1 })
-  type: number
+  @Column({ type: 'enum', enum: RouterType, comment: '路由类型' })
+  type: RouterType
 
   @Column({ nullable: true })
   button: string

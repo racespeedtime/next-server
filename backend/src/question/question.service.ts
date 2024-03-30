@@ -25,7 +25,7 @@ export class QuestionService {
         omits: getConditionOmits<GetQuestionDto>(),
       }),
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

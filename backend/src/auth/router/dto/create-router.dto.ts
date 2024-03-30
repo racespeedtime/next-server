@@ -1,12 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import {
   IsBoolean,
-  IsIn,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator'
-import { RouterTypeArray } from 'src/common/enums/router.enum'
+import { RouterType } from 'src/common/enums/router.enum'
 
 export class CreateRouterDto {
   @IsString()
@@ -34,11 +34,11 @@ export class CreateRouterDto {
   @ApiPropertyOptional()
   sort: number
 
-  @IsIn(RouterTypeArray)
+  @IsEnum(RouterType)
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional()
-  type: number
+  type: RouterType
 
   @IsString()
   @IsOptional()

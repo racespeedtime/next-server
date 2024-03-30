@@ -30,7 +30,7 @@ export class TeleportService {
         house: !payload.isAll,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

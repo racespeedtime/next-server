@@ -31,7 +31,7 @@ export class UserSettingService {
         user: !payload.userId && !payload.isAll,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

@@ -1,3 +1,4 @@
+import { Attire } from 'src/attire/entities/attire.entity'
 import { Vehicle } from 'src/vehicle/entities/vehicle.entity'
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
@@ -5,9 +6,6 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 export class VehicleAttachment {
   @PrimaryGeneratedColumn('uuid')
   id: string
-
-  @Column({ comment: '模型ID' })
-  modelId: number
 
   @Column({ default: 0, comment: '插槽ID' })
   slotId: number
@@ -32,4 +30,7 @@ export class VehicleAttachment {
 
   @ManyToOne(() => Vehicle, vehicle => vehicle.attachments)
   vehicle: Vehicle
+
+  @ManyToOne(() => Attire, attire => attire.vehicles)
+  attire: Attire
 }

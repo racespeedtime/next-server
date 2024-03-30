@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
+import { AttireType } from 'src/common/enums/attire.enum'
 
 export class CreateAttireDto {
   @IsString()
@@ -56,4 +57,8 @@ export class CreateAttireDto {
   @IsOptional()
   @ApiPropertyOptional()
   sZ: number
+
+  @IsEnum(AttireType)
+  @ApiProperty()
+  type: AttireType
 }

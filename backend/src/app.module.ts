@@ -54,6 +54,10 @@ import { DeathMatchSpawn } from './death-match/spawn/entities/spawn.entity'
 import { DeathMatchSpawnModule } from './death-match/spawn/spawn.module'
 import { DeathMatchWeaponModule } from './death-match/weapon/weapon.module'
 import { DeathMatchWeapon } from './death-match/weapon/entities/weapon.entity'
+import { TipModule } from './tip/tip.module'
+import { Tip } from './tip/entities/tip.entity'
+import { HostnameModule } from './hostname/hostname.module'
+import { Hostname } from './hostname/entities/hostname.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -91,8 +95,8 @@ const houseEntities = [House, HouseModel]
 const deathMatchModules = [DeathMatchSpawnModule, DeathMatchWeaponModule, DeathMatchModule]
 const deathMatchEntities = [DeathMatch, DeathMatchSpawn, DeathMatchWeapon]
 
-const miscModules = [BoardModule, GoodsModule, TeleportModule, QuestionModule]
-const miscEntities = [Board, Goods, Teleport, Question]
+const miscModules = [BoardModule, GoodsModule, TeleportModule, QuestionModule, TipModule, HostnameModule]
+const miscEntities = [Board, Goods, Teleport, Question, Tip, Hostname]
 
 @Module({
   imports: [

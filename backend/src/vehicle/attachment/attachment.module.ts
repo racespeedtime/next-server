@@ -8,5 +8,6 @@ import { VehicleAttachment } from './entities/attachment.entity'
   controllers: [VehicleAttachmentController],
   providers: [VehicleAttachmentService],
   imports: [TypeOrmModule.forFeature([VehicleAttachment])],
+  exports: [VehicleAttachmentService],
 })
 export class VehicleAttachmentModule {}

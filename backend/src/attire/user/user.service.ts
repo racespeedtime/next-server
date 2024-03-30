@@ -30,7 +30,7 @@ export class AttireUserService {
         user: !payload.userId,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
 
@@ -57,7 +57,7 @@ export class AttireUserService {
         user: true,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     const attireUser = await this.attireUserRepository.findOne(findOptions)

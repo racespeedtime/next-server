@@ -26,7 +26,7 @@ export class DeathMatchSpawnService {
         omits: getConditionOmits<GetDeathMatchSpawnDto>(),
       }),
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {
@@ -41,7 +41,7 @@ export class DeathMatchSpawnService {
     return this.deathMatchSpawnRepository.findOne({
       where: { id },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     })
   }

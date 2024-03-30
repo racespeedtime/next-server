@@ -26,7 +26,7 @@ export class RaceRecordService {
         omits: getConditionOmits<GetRaceRecordDto>(),
       }),
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
         record: 'ASC',
       },
       relations: {

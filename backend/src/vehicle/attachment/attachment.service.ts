@@ -27,7 +27,10 @@ export class VehicleAttachmentService {
           omits: getConditionOmits<GetVehicleAttachmentDto>(),
         }),
       },
-      relations: { vehicle: !payload.isAll },
+      relations: {
+        vehicle: !payload.isAll,
+        attire: !payload.isAll,
+      },
     }
     if (!payload.isAll) {
       findOptions.skip = payload.skip
@@ -37,13 +40,17 @@ export class VehicleAttachmentService {
     return { list, total }
   }
 
-  findOne(id: string) {
-    return this.vehicleAttachmentRepository.findOne({
+  async findOne(id: string) {
+    const vehicleAttachment = await this.vehicleAttachmentRepository.findOne({
       where: { id },
       relations: {
         vehicle: true,
+        attire: true,
       },
     })
+    if (!vehicleAttachment)
+      throw new Error('vehicleAttachment not found')
+    return vehicleAttachment
   }
 
   async update(id: string, updateVehicleAttachmentDto: UpdateVehicleAttachmentDto) {
@@ -65,5 +72,18 @@ export class VehicleAttachmentService {
       throw new Error('vehicleAttachment not found')
 
     return this.vehicleAttachmentRepository.remove(vehicleAttachment)
+  }
+
+  countSameAttires(vehicleId: string, attireId: string) {
+    return this.vehicleAttachmentRepository.count({
+      where: {
+        vehicle: {
+          id: vehicleId,
+        },
+        attire: {
+          id: attireId,
+        },
+      },
+    })
   }
 }

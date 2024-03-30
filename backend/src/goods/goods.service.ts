@@ -29,7 +29,7 @@ export class GoodsService {
         user: !payload.isAll,
       },
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

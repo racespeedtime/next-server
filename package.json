@@ -1,4 +1,7 @@
 {
+  "dependencies": {
+    "@nestjs/mapped-types": "*"
+  },
   "name": "next-server",
   "type": "module",
   "version": "0.0.1",

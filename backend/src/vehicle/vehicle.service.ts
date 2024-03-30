@@ -42,8 +42,8 @@ export class VehicleService {
     return { list, total }
   }
 
-  findOne(id: string) {
-    return this.vehicleRepository.findOne({
+  async findOne(id: string) {
+    const vehicle = await this.vehicleRepository.findOne({
       where: {
         id,
         deletedAt: null,
@@ -52,12 +52,13 @@ export class VehicleService {
         user: true,
       },
     })
+    if (!vehicle)
+      throw new Error('vehicle not found')
+    return vehicle
   }
 
   async update(id: string, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.findOne(id)
-    if (!vehicle)
-      throw new Error('vehicle not found')
 
     const merged = this.vehicleRepository.merge(
       vehicle,
@@ -69,9 +70,6 @@ export class VehicleService {
 
   async remove(id: string) {
     const vehicle = await this.findOne(id)
-    if (!vehicle)
-      throw new Error('vehicle not found')
-
     return this.vehicleRepository.softRemove(vehicle)
   }
 }

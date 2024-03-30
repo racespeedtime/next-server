@@ -26,7 +26,7 @@ export class RaceCpScriptService {
         omits: getConditionOmits<GetRaceCpScriptDto>(),
       }),
       order: {
-        updatedAt: 'DESC',
+        createdAt: 'DESC',
       },
     }
     if (!payload.isAll) {

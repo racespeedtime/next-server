@@ -3,7 +3,3 @@ export enum RouterType {
   PAGE = 1,
   BUTTON = 2,
 }
-
-const routerTypeRaw = Object.values(RouterType)
-
-export const RouterTypeArray = routerTypeRaw.slice(routerTypeRaw.length / 2)
