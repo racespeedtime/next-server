@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "openmultiplayer/open.mp": "*",
+    "samp-incognito/samp-streamer-plugin": "*",
+    "dockfries/samp-node": "*"
+  }
+}

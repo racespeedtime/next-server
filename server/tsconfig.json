@@ -2,12 +2,10 @@
   "compilerOptions": {
     "target": "esnext",
     "baseUrl": "./",
-    "rootDir": "../",
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      "@/*": ["./src/*"],
-      "shared/*": ["../shared/*"]
+      "@/*": ["src/*"]
     },
     "resolveJsonModule": true,
     "types": ["@sa-mp/node", "@types/node"],
