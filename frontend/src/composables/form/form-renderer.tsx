@@ -204,7 +204,7 @@ export function renderFormItems(formOptions: UseFormOptions, placeholders: Recor
       )
       return hasTopBottom
         ? (
-          <div class="flex items-center w-full">{itemDom}</div>
+            <div class="flex items-center w-full">{itemDom}</div>
           )
         : (
             itemDom
@@ -219,11 +219,11 @@ export function renderFormItems(formOptions: UseFormOptions, placeholders: Recor
         >
           {item.slots?.top || item.slots?.bottom
             ? (
-              <div class="flex flex-col w-full">
-                {item.slots?.top?.(item)}
-                {itemWithLeftRight(true)}
-                {item.slots?.bottom?.(item)}
-              </div>
+                <div class="flex flex-col w-full">
+                  {item.slots?.top?.(item)}
+                  {itemWithLeftRight(true)}
+                  {item.slots?.bottom?.(item)}
+                </div>
               )
             : (
                 itemWithLeftRight(false)

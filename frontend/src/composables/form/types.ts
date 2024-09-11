@@ -92,14 +92,14 @@ export interface SelectFormItem extends CommonFormItem {
 export interface CheckboxFormItem extends CommonFormItem {
   type: 'checkbox'
   options: (InstanceType<typeof ElCheckbox>['$props'] &
-  { value?: InstanceType<typeof ElRadio>['$props']['label'] })[]
+    { value?: InstanceType<typeof ElRadio>['$props']['label'] })[]
   props?: FormItemPropsMap['checkbox']
 }
 
 export interface RadioFormItem extends CommonFormItem {
   type: 'radio'
   options: (InstanceType<typeof ElRadio>['$props'] &
-  { value?: InstanceType<typeof ElRadio>['$props']['label'] })[]
+    { value?: InstanceType<typeof ElRadio>['$props']['label'] })[]
   props?: FormItemPropsMap['radio']
 }
 

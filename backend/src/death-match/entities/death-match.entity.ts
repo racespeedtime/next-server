@@ -1,5 +1,5 @@
 import { House } from 'src/house/entities/house.entity'
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { DeathMatchSpawn } from '../spawn/entities/spawn.entity'
 import { DeathMatchWeapon } from '../weapon/entities/weapon.entity'
 

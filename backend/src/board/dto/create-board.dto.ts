@@ -1,6 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator'
-import { Column } from 'typeorm'
 
 export class CreateBoardDto {
   @IsNumber()

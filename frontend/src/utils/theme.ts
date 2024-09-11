@@ -12,7 +12,7 @@ import { asideTheme, headerTheme, menuTheme } from '@/config/theme.ts'
  */
 export function hexToRgb(str: any) {
   let hexs: any = ''
-  const reg = /^\#?[0-9A-Fa-f]{6}$/
+  const reg = /^#?[0-9A-F]{6}$/i
   if (!reg.test(str))
     return ElMessage.warning('输入错误的hex')
   str = str.replace('#', '')
@@ -48,7 +48,7 @@ export function rgbToHex(r: any, g: any, b: any) {
  * @returns {string} 返回处理后的颜色值
  */
 export function getDarkColor(color: string, level: number) {
-  const reg = /^\#?[0-9A-Fa-f]{6}$/
+  const reg = /^#?[0-9A-F]{6}$/i
   if (!reg.test(color))
     return ElMessage.warning('输入错误的hex颜色值')
   const rgb = hexToRgb(color)
@@ -64,7 +64,7 @@ export function getDarkColor(color: string, level: number) {
  * @returns {string} 返回处理后的颜色值
  */
 export function getLightColor(color: string, level: number) {
-  const reg = /^\#?[0-9A-Fa-f]{6}$/
+  const reg = /^#?[0-9A-F]{6}$/i
   if (!reg.test(color))
     return ElMessage.warning('输入错误的hex颜色值')
   const rgb = hexToRgb(color)

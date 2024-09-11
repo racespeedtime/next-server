@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useGlobalStore } from '@/stores/modules/global.ts'
+
 const globalStore = useGlobalStore()
 // 切换图标
 function changeCollapseIcon() {

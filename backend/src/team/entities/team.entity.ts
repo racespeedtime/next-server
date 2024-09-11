@@ -1,5 +1,5 @@
 import { User } from 'src/user/entities/user.entity'
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { TeamUser } from '../user/entities/user.entity'
 
 @Entity()
@@ -13,7 +13,7 @@ export class Team {
   @Column({ comment: '全称' })
   fullName: string
 
-  @Column({ nullable:true, comment: '描述' })
+  @Column({ nullable: true, comment: '描述' })
   description: string
 
   @CreateDateColumn()

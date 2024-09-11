@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { FindManyOptions, Repository } from 'typeorm'
-import { conditionWhere, getConditionOmits, getDateRangeOperator } from 'src/common/utils/condition-where.utils'
+import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
 import { CreateVehicleAttachmentDto } from './dto/create-attachment.dto'
 import { UpdateVehicleAttachmentDto } from './dto/update-attachment.dto'
 import { GetVehicleAttachmentDto } from './dto/get-attchment.dto'

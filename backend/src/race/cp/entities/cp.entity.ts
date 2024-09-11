@@ -1,5 +1,5 @@
 import { Race } from 'src/race/entities/race.entity'
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { RaceCpScript } from '../script/entities/script.entity'
 
 @Entity({})
