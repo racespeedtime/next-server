@@ -1,5 +1,5 @@
 import { Race } from 'src/race/entities/race.entity'
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { RaceCpScript } from '../script/entities/script.entity'
 
 @Entity({})
@@ -34,6 +34,6 @@ export class RaceCp {
   @ManyToOne(() => Race, race => race.checkpoints)
   race: Race
 
-  @ManyToOne(() => RaceCpScript, scripts => scripts.checkpoint)
+  @OneToMany(() => RaceCpScript, scripts => scripts.checkpoint)
   scripts: RaceCpScript[]
 }

@@ -2,15 +2,19 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { FindManyOptions, Repository } from 'typeorm'
 import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
-import { UpdateBoardDto } from './dto/update-board.dto'
+import { UserService } from 'src/user/user.service'
 import { CreateBoardDto } from './dto/create-board.dto'
+import { UpdateBoardDto } from './dto/update-board.dto'
 import { Board } from './entities/board.entity'
 import { GetBoardDto } from './dto/get-board.dto'
+import { BoardUserService } from './user/user.service'
 
 @Injectable()
 export class BoardService {
   constructor(
     @InjectRepository(Board) private readonly boardRepository: Repository<Board>,
+    private readonly userService: UserService,
+    private readonly boardUserService: BoardUserService,
   ) {}
 
   create(createBoardDto: CreateBoardDto) {
@@ -21,17 +25,13 @@ export class BoardService {
     const findOptions: FindManyOptions<Board> = {
       where: conditionWhere<GetBoardDto>({
         payload,
-        mapping: { userId: 'user.id' },
-        equals: ['userId'],
         omits: getConditionOmits<GetBoardDto>(),
       }),
-      relations: {
-        user: true,
-      },
       order: {
         createdAt: 'DESC',
       },
     }
+
     if (!payload.isAll) {
       findOptions.skip = payload.skip
       findOptions.take = payload.take
@@ -40,19 +40,15 @@ export class BoardService {
     return { list, total }
   }
 
-  findOne(id: string) {
-    return this.boardRepository.findOne({
-      where: { id },
-      relations: {
-        user: true,
-      },
-    })
+  async findOne(id: string) {
+    const board = await this.boardRepository.findOne({ where: { id } })
+    if (!board)
+      throw new Error('board not found')
+    return board
   }
 
   async update(id: string, updateBoardDto: UpdateBoardDto) {
     const board = await this.findOne(id)
-    if (!board)
-      throw new Error('board not found')
 
     const merged = this.boardRepository.merge(
       board,
@@ -64,9 +60,7 @@ export class BoardService {
 
   async remove(id: string) {
     const board = await this.findOne(id)
-    if (!board)
-      throw new Error('board not found')
 
-    return this.boardRepository.remove(board)
+    return this.boardRepository.softRemove(board)
   }
 }

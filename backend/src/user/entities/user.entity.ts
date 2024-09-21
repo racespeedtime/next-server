@@ -22,6 +22,7 @@ import { Vehicle } from 'src/vehicle/entities/vehicle.entity'
 import { Teleport } from 'src/teleport/entities/teleport.entity'
 import { House } from 'src/house/entities/house.entity'
 import { Question } from 'src/question/entities/question.entity'
+import { BoardUser } from 'src/board/user/entities/user.entity'
 import { UserSetting } from '../setting/entities/setting.entity'
 import { UserLoginRecord } from '../login-record/entities/login-record.entity'
 import { UserBan } from '../ban/entities/ban.entity'
@@ -79,7 +80,7 @@ export class User {
   @OneToMany(() => AttireUser, attire => attire.user)
   attires: AttireUser[]
 
-  @OneToMany(() => Board, board => board.user)
+  @OneToMany(() => BoardUser, userBoard => userBoard.user)
   boards: Board[]
 
   @OneToMany(() => Goods, good => good.user)

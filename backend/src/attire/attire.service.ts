@@ -20,6 +20,7 @@ import { SellAttireDto } from './dto/sell-attire.dto'
 
 @Injectable()
 export class AttireService {
+  // todo 后续转为数据库字段配置装扮每个能拥有几个，比如默认1个
   private readonly MAX_SAME_PLYER_ATTIRE = 5
   private readonly MAX_SAME_VEHICLE_ATTIRE = 4
 
@@ -78,8 +79,6 @@ export class AttireService {
     return this.attireRepository.softRemove(attire)
   }
 
-  // todo 还要加一个买到哪里去，比如买到玩家，那么仅通用和玩家的可以查出来并且入库到玩家
-  // 反之通用和车辆的入库到车辆
   async buy(buyAttireDto: BuyAttireDto) {
     return this.attireRepository.manager.transaction(async (manager) => {
       const attire = await this.findOne(buyAttireDto.attireId)
@@ -90,7 +89,7 @@ export class AttireService {
 
       if (!buyAttireDto.vehicleId) {
         if (attire.type === AttireType.VEHICLE)
-          throw new BadRequestException('不能购买车辆类型的装扮作为玩家装扮')
+          throw new BadRequestException('不能购买爱车类型的装扮作为玩家装扮')
 
         const count = await this.attireUserService.countSameAttires(attire.id)
         if (count >= this.MAX_SAME_PLYER_ATTIRE)
@@ -107,7 +106,7 @@ export class AttireService {
       }
       else {
         if (attire.type === AttireType.PLAYER)
-          throw new BadRequestException('不能购买玩家类型的装扮作为玩家装扮')
+          throw new BadRequestException('不能购买玩家类型的装扮作为爱车装扮')
 
         const vehicle = await this.vehicleService.findOne(buyAttireDto.vehicleId)
 

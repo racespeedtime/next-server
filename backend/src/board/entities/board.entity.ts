@@ -1,15 +1,22 @@
-import { User } from 'src/user/entities/user.entity'
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Exclude } from 'class-transformer'
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { BoardUser } from '../user/entities/user.entity'
 
 @Entity()
 export class Board {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ comment: '模型Id' })
+  @Column({ comment: '公告牌名称' })
+  name: string
+
+  @Column({ comment: '模型ID' })
   modelId: number
 
-  @Column({ comment: '公告板内容' })
+  @Column({ default: 0, comment: '价格' })
+  price: number
+
+  @Column({ nullable: true, comment: '公告板内容' })
   text: string
 
   @Column({ default: 0, comment: '纹理下标' })
@@ -36,7 +43,7 @@ export class Board {
   @Column({ default: 1, comment: '对齐方式' })
   align: number
 
-  @Column({ type: 'double', comment: 'x' })
+  @Column({ default: 0, type: 'double', comment: 'x' })
   x: number
 
   @Column({ type: 'double', comment: 'y' })
@@ -60,12 +67,16 @@ export class Board {
   @Column({ default: 0, comment: '内部空间Id' })
   interiorId: number
 
-  @ManyToOne(() => User, user => user.boards)
-  user: User
-
   @CreateDateColumn()
   createdAt: Date
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  @DeleteDateColumn()
+  @Exclude()
+  deletedAt: Date
+
+  @OneToMany(() => BoardUser, userBoard => userBoard.board)
+  users: BoardUser[]
 }

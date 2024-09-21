@@ -10,7 +10,6 @@ import { Role } from './role/entities/role.entity'
 import { UserModule } from './user/user.module'
 import { Router } from './auth/router/entities/router.entity'
 import { AttireModule } from './attire/attire.module'
-import { BoardModule } from './board/board.module'
 import { RaceModule } from './race/race.module'
 import { TeamModule } from './team/team.module'
 import { GoodsModule } from './goods/goods.module'
@@ -58,6 +57,9 @@ import { TipModule } from './tip/tip.module'
 import { Tip } from './tip/entities/tip.entity'
 import { HostnameModule } from './hostname/hostname.module'
 import { Hostname } from './hostname/entities/hostname.entity'
+import { BoardModule } from './board/board.module'
+import { BoardUserModule } from './board/user/user.module'
+import { BoardUser } from './board/user/entities/user.entity'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -95,8 +97,11 @@ const houseEntities = [House, HouseModel]
 const deathMatchModules = [DeathMatchSpawnModule, DeathMatchWeaponModule, DeathMatchModule]
 const deathMatchEntities = [DeathMatch, DeathMatchSpawn, DeathMatchWeapon]
 
-const miscModules = [BoardModule, GoodsModule, TeleportModule, QuestionModule, TipModule, HostnameModule]
-const miscEntities = [Board, Goods, Teleport, Question, Tip, Hostname]
+const boardModules = [BoardUserModule, BoardModule]
+const boardEntities = [Board, BoardUser]
+
+const miscModules = [GoodsModule, TeleportModule, QuestionModule, TipModule, HostnameModule]
+const miscEntities = [Goods, Teleport, Question, Tip, Hostname]
 
 @Module({
   imports: [
@@ -123,6 +128,7 @@ const miscEntities = [Board, Goods, Teleport, Question, Tip, Hostname]
             ...teamEntities,
             ...houseEntities,
             ...deathMatchEntities,
+            ...boardEntities,
             ...miscEntities,
           ],
           // timezone: '+08:00',
@@ -138,8 +144,8 @@ const miscEntities = [Board, Goods, Teleport, Question, Tip, Hostname]
     ...teamModules,
     ...houseModules,
     ...deathMatchModules,
+    ...boardModules,
     ...miscModules,
-
   ],
   controllers: [AppController],
   providers: [AppService],

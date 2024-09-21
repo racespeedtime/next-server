@@ -2,7 +2,7 @@ import { Team } from 'src/team/entities/team.entity'
 import { User } from 'src/user/entities/user.entity'
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-@Entity()
+@Entity({ name: 'sys_user_team' })
 export class TeamUser {
   @PrimaryGeneratedColumn('uuid')
   id: string
