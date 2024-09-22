@@ -65,7 +65,7 @@ async function handleCascade() {
 
 handleCascade()
 
-const colProps = { span: 12 }
+const colProps = { sm: 12 }
 
 const { validate, Form } = useForm(computed<UseFormOptions>(() => {
   return {
@@ -81,6 +81,7 @@ const { validate, Form } = useForm(computed<UseFormOptions>(() => {
         props: {
           options: cascadeOptions.value,
           props: {
+            checkStrictly: true,
             expandTrigger: 'hover',
             emitPath: false,
           },

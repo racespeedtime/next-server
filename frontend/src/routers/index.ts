@@ -12,9 +12,7 @@ import { errorRoute, staticRoutes } from '@/routers/modules/staticRouter'
 import nprogress from '@/utils/nprogress'
 
 import { useAuthStore } from '@/stores/modules/auth.ts'
-import { useGlobalStore } from '@/stores/modules/global.ts'
 import { LOGIN_URL, ROUTER_WHITE_LIST } from '@/config/index.ts'
-import { msgWarning } from '@/utils/msgNotice'
 import { initDynamicRouter } from '@/routers/modules/dynamicRouter.ts'
 import settings from '@/config/settings'
 
@@ -48,7 +46,7 @@ router.beforeEach(
     from: RouteLocationNormalized,
     next: NavigationGuardNext,
   ) => {
-    const { isInitRoute } = useGlobalStore()
+    // const { isInitRoute } = useGlobalStore()
     const { token, getMenuList } = useAuthStore()
 
     // 1、NProgress 开始
@@ -61,11 +59,8 @@ router.beforeEach(
     // 3、判断是访问登陆页，有Token访问当前页面，token过期访问接口，axios封装则自动跳转登录页面，没有Token重置路由到登陆页。
     if (to.path.toLocaleLowerCase() === LOGIN_URL) {
       // 有Token访问当前页面
-
       if (token)
         return next(from.fullPath)
-      else msgWarning('账号身份已过期，请重新登录')
-
       // 没有Token重置路由到登陆页。
       resetRouter()
       return next()
@@ -102,6 +97,7 @@ export function resetRouter() {
     if (name && router.hasRoute(name))
       router.removeRoute(name)
   })
+  authStore.$reset()
 }
 
 /**

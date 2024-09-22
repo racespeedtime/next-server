@@ -158,7 +158,7 @@ function handleTabsMenuParent(item, value) {
     >
       <!-- 加载图标 -->
       <template #label>
-        <div class=" flex items-center px-10px h-full gap-x-4px " @contextmenu.prevent="handleTabsMenuParent(item, $event)">
+        <div class=" flex items-center px-10px h-full gap-x-4px " @mouseenter.prevent="handleTabsMenuParent(item, $event)">
           <IconRender :size="16" class="m-r-2px" :icon="item.icon" :local="item.localIcon" />
           <span>{{ item.title }}</span>
           <el-icon v-if="item.close" :size="14" @click.stop="removeTab(item.fullPath)">

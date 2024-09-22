@@ -34,7 +34,7 @@ function handleCommand(command: string | number) {
 
 <template>
   <el-dropdown class="m-l-10px" :hide-on-click="false" @command="handleCommand">
-    <div class="flex items-center gap-4px outline-none">
+    <div v-if="authStore.userInfo.username" class="flex items-center gap-4px outline-none">
       <el-avatar
         :size="34"
         :src="authStore.userInfo.avatar"

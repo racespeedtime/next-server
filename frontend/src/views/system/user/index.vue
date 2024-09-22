@@ -190,16 +190,6 @@ const { Table, getList: handleListPage } = useTable({
               分配角色
             </el-button>
           </el-col>
-          <el-col span={1.5}>
-            <el-button type="warning" icon="download" plain>
-              导出
-            </el-button>
-          </el-col>
-          <el-col span={1.5}>
-            <el-button type="info" icon="upload" plain>
-              导入
-            </el-button>
-          </el-col>
         </el-row>
       )
     },

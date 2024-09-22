@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { FindManyOptions, Repository } from 'typeorm'
-import { conditionWhere, getConditionOmits } from 'src/common/utils/condition-where.utils'
+import { conditionWhere, getConditionOmits, getDateRangeOperator } from 'src/common/utils/condition-where.utils'
 import { CreateTeleportDto } from './dto/create-teleport.dto'
 import { UpdateTeleportDto } from './dto/update-teleport.dto'
 import { GetTeleportDto } from './dto/get-teleport.dto'
@@ -19,12 +19,15 @@ export class TeleportService {
 
   async findAll(payload: GetTeleportDto) {
     const findOptions: FindManyOptions<Teleport> = {
-      where: conditionWhere<GetTeleportDto>({
-        payload,
-        mapping: { userId: 'user.id' },
-        equals: ['userId', 'interiorId', 'isEnabled', 'isSystem'],
-        omits: getConditionOmits<GetTeleportDto>(),
-      }),
+      where: {
+        ...conditionWhere<GetTeleportDto>({
+          payload,
+          mapping: { userId: 'user.id' },
+          equals: ['userId', 'interiorId', 'isEnabled', 'isSystem'],
+          omits: getConditionOmits<GetTeleportDto>(),
+        }),
+        createdAt: getDateRangeOperator({ payload }),
+      },
       relations: {
         user: !payload.isAll,
         house: !payload.isAll,

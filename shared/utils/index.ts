@@ -2,7 +2,7 @@ import type { CustomAxiosRequest } from 'shared/types'
 
 export function getAxiosErrorMsg(error) {
   error.data = {}
-  if (error && error.response) {
+  if (error.response) {
     switch (error.response.status) {
       case 400:
         error.data.message = '错误请求'

@@ -22,7 +22,14 @@ const loading = ref(false)
 
 const options = ref<ListItem[]>([])
 
+let lastQuery = ''
+
+remoteMethod()
+
 async function remoteMethod(query?: string) {
+  if (query === lastQuery)
+    return
+  lastQuery = query || ''
   try {
     loading.value = true
     const { list } = await userApi.listPage({
