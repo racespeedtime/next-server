@@ -7,6 +7,7 @@ import { createRaceApi } from './race'
 import { createVehicleApi } from './vehicle'
 import { createHouseApi } from './house'
 import { createTeleportApi } from './teleport'
+import { createAttireApi } from './attire'
 
 export function createAllApi(instance: AxiosInstance) {
   const request: CustomAxiosRequest = {
@@ -48,5 +49,6 @@ export function createAllApi(instance: AxiosInstance) {
     vehicleApi: createVehicleApi(request),
     houseApi: createHouseApi(request),
     teleportApi: createTeleportApi(request),
+    attireApi: createAttireApi(request),
   }
 }

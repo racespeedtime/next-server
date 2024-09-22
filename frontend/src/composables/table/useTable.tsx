@@ -227,7 +227,7 @@ export function useTable<T = any>(
   function FunctionalTable() {
     return (
       <>
-        {_tableOptions.value.searchItems?.length && (
+        {_tableOptions.value.searchItems?.length > 0 && (
           <Form v-show={isShowSearch.value}>
             {{
               append() {
@@ -337,21 +337,21 @@ export function useTable<T = any>(
             <ElTableColumn label="列名" prop="label"></ElTableColumn>
             <ElTableColumn label="是否显示">
               {
-                  {
-                    default({ row }) {
-                      return (
-                        <ElSwitch
-                          modelValue={!hiddenColProps.value.includes(row.prop)}
-                          onUpdate:modelValue={(value) => {
-                            if (value)
-                              hiddenColProps.value = hiddenColProps.value.filter(prop => prop !== row.prop)
-                            else hiddenColProps.value.push(row.prop)
-                          }}
-                        />
-                      )
-                    },
-                  }
+                {
+                  default({ row }) {
+                    return (
+                      <ElSwitch
+                        modelValue={!hiddenColProps.value.includes(row.prop)}
+                        onUpdate:modelValue={(value) => {
+                          if (value)
+                            hiddenColProps.value = hiddenColProps.value.filter(prop => prop !== row.prop)
+                          else hiddenColProps.value.push(row.prop)
+                        }}
+                      />
+                    )
+                  },
                 }
+              }
             </ElTableColumn>
           </ElTable>
         </ElDrawer>
@@ -363,7 +363,9 @@ export function useTable<T = any>(
   watch(() => searchForm.value, getDebounceList, { deep: true })
 
   // 创建完立即请求
-  !_tableOptions.value.manual && getList()
+  if (!_tableOptions.value.manual) {
+    getList()
+  }
 
   return {
     Table: FunctionalTable,
