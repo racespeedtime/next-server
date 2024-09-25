@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'axios'
-import type { CustomAxiosRequest } from 'shared/types'
+import type { CustomAxiosRequest } from '../types'
 import { createMenuApi } from './system/menu'
 import { createRoleApi } from './system/role'
 import { createUserApi } from './system/user'

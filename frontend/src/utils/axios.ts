@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios'
 import axios from 'axios'
-import { SharedENV } from 'shared/constants'
-import { getAxiosErrorMsg } from 'shared/utils'
+import { SharedENV, getAxiosErrorMsg } from '@next-server/shared'
+
 import { msgError } from '@/utils/msgNotice'
 import { LOGIN_URL } from '@/config/index.ts'
 import { useAuthStore } from '@/stores/modules/auth.ts'

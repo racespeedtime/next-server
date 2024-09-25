@@ -9,7 +9,6 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import simpleHtmlPlugin from 'vite-plugin-simple-html'
-import { SharedENV } from '../shared/constants'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname)
@@ -38,14 +37,14 @@ export default defineConfig(({ mode }) => {
       // 配置路径别名
       alias: {
         '@': resolve(__dirname, './src'),
-        'shared': resolve(__dirname, '../shared'),
       },
     },
     css: {
       preprocessorOptions: {
         scss: {
+          api: 'modern-compiler',
           javascriptEnabled: true,
-          additionalData: '@import "./src/styles/variable.scss";',
+          additionalData: '@import "@/styles/variable.scss";',
         },
       },
     },
@@ -56,9 +55,9 @@ export default defineConfig(({ mode }) => {
       open: true, // 自动打开
       proxy: {
         // 代理跨域
-        [SharedENV[env.mode]]: {
+        '/api': {
           // 配置哪个环境下的
-          target: SharedENV[env.mode],
+          target: 'http://localhost:3000/api',
           rewrite: path => path.replace(/^\/api/, ''),
           changeOrigin: true,
           configure: (proxy, options) => {

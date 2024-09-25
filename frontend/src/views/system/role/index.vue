@@ -420,75 +420,73 @@ function handleMenuCancel() {
         @confirm="handleConfirm"
         @cancel="handleCancel"
       >
-        <template #content>
-          <el-form
-            ref="formRef"
-            :rules="rules"
-            :model="form"
-            label-width="80px"
-            status-icon
-          >
-            <el-row>
-              <el-col :xs="{ span: 24 }" :sm="{ span: 12 }">
-                <el-form-item label="角色名称" prop="name">
-                  <el-input
-                    v-model="form.name"
-                    placeholder="请输入角色名称"
-                    clearable
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" class="p-l-10px">
-                <el-form-item label="角色编号" prop="code">
-                  <el-input
-                    v-model="form.code"
-                    placeholder="请输入角色编号"
-                    clearable
-                  />
-                </el-form-item>
-              </el-col>
-            </el-row>
+        <el-form
+          ref="formRef"
+          :rules="rules"
+          :model="form"
+          label-width="80px"
+          status-icon
+        >
+          <el-row>
+            <el-col :xs="{ span: 24 }" :sm="{ span: 12 }">
+              <el-form-item label="角色名称" prop="name">
+                <el-input
+                  v-model="form.name"
+                  placeholder="请输入角色名称"
+                  clearable
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" class="p-l-10px">
+              <el-form-item label="角色编号" prop="code">
+                <el-input
+                  v-model="form.code"
+                  placeholder="请输入角色编号"
+                  clearable
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-            <el-row>
-              <el-col :xs="{ span: 24 }" :sm="{ span: 12 }">
-                <el-form-item label="角色状态" prop="isEnabled">
-                  <el-select
-                    v-model="form.isEnabled"
-                    placeholder="请选择角色状态"
-                    style="width: 260px"
-                    clearable
-                  >
-                    <el-option label="启用" :value="true" />
-                    <el-option label="停用" :value="false" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" class="p-l-10px">
-                <el-form-item label="角色排序" prop="sort">
-                  <el-input-number
-                    v-model="form.sort"
-                    style="width: 260px"
-                    clearable
-                  />
-                </el-form-item>
-              </el-col>
-            </el-row>
+          <el-row>
+            <el-col :xs="{ span: 24 }" :sm="{ span: 12 }">
+              <el-form-item label="角色状态" prop="isEnabled">
+                <el-select
+                  v-model="form.isEnabled"
+                  placeholder="请选择角色状态"
+                  style="width: 260px"
+                  clearable
+                >
+                  <el-option label="启用" :value="true" />
+                  <el-option label="停用" :value="false" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" class="p-l-10px">
+              <el-form-item label="角色排序" prop="sort">
+                <el-input-number
+                  v-model="form.sort"
+                  style="width: 260px"
+                  clearable
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-            <el-row>
-              <el-col :xs="{ span: 24 }" :sm="{ span: 24 }">
-                <el-form-item label="角色备注" prop="remark">
-                  <el-input
-                    v-model="form.remark"
-                    :rows="5"
-                    type="textarea"
-                    placeholder="请输入角色备注"
-                  />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-          {{ form }}
-        </template>
+          <el-row>
+            <el-col :xs="{ span: 24 }" :sm="{ span: 24 }">
+              <el-form-item label="角色备注" prop="remark">
+                <el-input
+                  v-model="form.remark"
+                  :rows="5"
+                  type="textarea"
+                  placeholder="请输入角色备注"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        {{ form }}
       </Dialog>
 
       <!-- 分配菜单 -->
@@ -501,20 +499,16 @@ function handleMenuCancel() {
         @confirm="handleMenuConfirm"
         @cancel="handleMenuCancel"
       >
-        <template #content>
-          <div>
-            <el-tree
-              ref="treeRef"
-              :data="treeData"
-              show-checkbox
-              :default-expand-all="false"
-              :default-expanded-keys="expandedKey"
-              node-key="id"
-              highlight-current
-              :props="treeKeyProps"
-            />
-          </div>
-        </template>
+        <el-tree
+          ref="treeRef"
+          :data="treeData"
+          show-checkbox
+          :default-expand-all="false"
+          :default-expanded-keys="expandedKey"
+          node-key="id"
+          highlight-current
+          :props="treeKeyProps"
+        />
       </Drawer>
     </el-card>
   </div>

@@ -1,4 +1,4 @@
-import type { CustomAxiosRequest } from 'shared/types'
+import type { CustomAxiosRequest } from '../../../types'
 
 export function createMenuApi(request: CustomAxiosRequest) {
   return {

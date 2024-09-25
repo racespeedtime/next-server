@@ -6,12 +6,10 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "useDefineForClassFields": true,
     "baseUrl": "./",
-    "rootDir": "../",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "@/*": ["src/*"],
-      "shared/*": ["../shared/*"]
+      "@/*": ["src/*"]
     },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
@@ -31,7 +29,6 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "../shared/**/*.ts",
     "env.d.ts",
     "auto-imports.d.ts",
     "components.d.ts",

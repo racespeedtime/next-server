@@ -378,40 +378,38 @@ async function handleBatchDelete() {
       @confirm="handleConfirm"
       @cancel="handleCancel"
     >
-      <template #content>
-        <el-form
-          ref="formRef"
-          :rules="rules"
-          :model="form"
-          label-width="80px"
-          status-icon
-        >
-          <el-form-item label="用户名称" prop="username">
-            <el-input
-              v-model="form.username"
-              placeholder="请输入用户名称"
-              clearable
-            />
-          </el-form-item>
-          <el-form-item v-if="!form.id" label="用户密码" prop="password">
-            <el-input
-              v-model="form.password"
-              type="password"
-              placeholder="请输入用户密码"
-              clearable
-            />
-          </el-form-item>
-          <el-form-item v-if="!form.id" label="再次确认密码" prop="checkPass">
-            <el-input
-              v-model="form.checkPass"
-              type="password"
-              placeholder="请再次确认密码"
-              clearable
-            />
-          </el-form-item>
-        </el-form>
-        {{ form }}
-      </template>
+      <el-form
+        ref="formRef"
+        :rules="rules"
+        :model="form"
+        label-width="80px"
+        status-icon
+      >
+        <el-form-item label="用户名称" prop="username">
+          <el-input
+            v-model="form.username"
+            placeholder="请输入用户名称"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item v-if="!form.id" label="用户密码" prop="password">
+          <el-input
+            v-model="form.password"
+            type="password"
+            placeholder="请输入用户密码"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item v-if="!form.id" label="再次确认密码" prop="checkPass">
+          <el-input
+            v-model="form.checkPass"
+            type="password"
+            placeholder="请再次确认密码"
+            clearable
+          />
+        </el-form-item>
+      </el-form>
+      {{ form }}
     </Drawer>
 
     <Dialog
@@ -421,27 +419,25 @@ async function handleBatchDelete() {
       :loading="confirmLoading"
       :footer-hidden="true"
     >
-      <template #content>
-        <div class="flex flex-justify-center">
-          <el-transfer
-            v-model="transferRightList"
-            :props="{
-              key: 'id',
-              label: 'name',
-            }"
-            :titles="['角色列表', '拥有角色']"
-            target-order="original"
-            filterable
-            filter-placeholder="关键字搜索"
-            :format="{
-              noChecked: '${total}',
-              hasChecked: '${checked}/${total}',
-            }"
-            :data="transferLeftList"
-            @change="handleTransferChange"
-          />
-        </div>
-      </template>
+      <div class="flex flex-justify-center">
+        <el-transfer
+          v-model="transferRightList"
+          :props="{
+            key: 'id',
+            label: 'name',
+          }"
+          :titles="['角色列表', '拥有角色']"
+          target-order="original"
+          filterable
+          filter-placeholder="关键字搜索"
+          :format="{
+            noChecked: '${total}',
+            hasChecked: '${checked}/${total}',
+          }"
+          :data="transferLeftList"
+          @change="handleTransferChange"
+        />
+      </div>
     </Dialog>
   </div>
 </template>

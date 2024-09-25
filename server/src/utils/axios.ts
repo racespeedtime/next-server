@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios'
 import axios from 'axios'
-import { SharedENV } from 'shared/constants'
-import { getAxiosErrorMsg } from 'shared/utils'
+import { SharedENV, getAxiosErrorMsg } from '@next-server/shared'
+
 import { userApi } from '@/api'
 
 let token = ''

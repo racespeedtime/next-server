@@ -1,0 +1,5 @@
+{
+  "name": "@next-server/shared",
+  "private": true,
+  "main": "./src/main.ts"
+}

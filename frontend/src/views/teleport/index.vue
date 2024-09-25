@@ -1,19 +1,27 @@
 <script setup lang="tsx">
-import { ElSwitch } from 'element-plus'
+import { ElMessage, ElSwitch } from 'element-plus'
+import { debounce } from 'lodash-es'
 import { teleportApi } from '@/api'
 import { useTable } from '@/composables/table/useTable'
 import { commonYesOrNoOptions } from '@/constants/common'
 import UserSelector from '@/components/Selector/UserSelector.vue'
 
 function handleUpdate(row: any) {
+  console.log(row)
   throw new Error('Function not implemented.')
 }
 
 function handleDelete(row: any) {
+  console.log(row)
   throw new Error('Function not implemented.')
 }
 
-const { Table, getList: handleListPage, searchForm } = useTable({
+const toggleEnable = debounce(async (row) => {
+  await teleportApi.update(row)
+  ElMessage.success('修改成功')
+}, 300)
+
+const { Table, searchForm } = useTable({
   searchItems: [
     { label: '传送点名称', prop: 'name', type: 'input' },
     {
@@ -118,7 +126,7 @@ const { Table, getList: handleListPage, searchForm } = useTable({
       minWidth: '200px',
       align: 'center',
       render({ row }) {
-        return <ElSwitch v-model={row.isEnabled}></ElSwitch>
+        return <ElSwitch v-model={row.isEnabled} onChange={() => toggleEnable(row)} />
       },
     },
     {
@@ -127,7 +135,7 @@ const { Table, getList: handleListPage, searchForm } = useTable({
       minWidth: '200px',
       align: 'center',
       render({ row }) {
-        return <ElSwitch v-model={row.isSystem}></ElSwitch>
+        return <ElSwitch v-model={row.isSystem} onChange={() => toggleEnable(row)} />
       },
     },
     {

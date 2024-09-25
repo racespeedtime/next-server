@@ -1,4 +1,4 @@
-import type { CustomAxiosRequest, LoginUser } from 'shared/types'
+import type { CustomAxiosRequest, LoginUser } from '../../../types'
 
 export function createUserApi(request: CustomAxiosRequest) {
   return {

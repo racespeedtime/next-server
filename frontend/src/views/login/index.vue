@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
-import type { LoginUser } from 'shared/types'
+import type { LoginUser } from '@next-server/shared'
 import { msgSuccess, noticeSuccess } from '@/utils/msgNotice'
 import { useKeepAliveStore } from '@/stores/modules/keepAlive.ts'
 import { HOME_URL } from '@/config/index.ts'

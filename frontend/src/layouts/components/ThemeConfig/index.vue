@@ -38,204 +38,202 @@ mittBus.on('handleThemeConfig', () => {
     :footer-hidden="true"
     :close-on-click-modal="true"
   >
-    <template #content>
-      <div class="flex items-center gap-4px">
-        <span>主题颜色选择</span>
-        <el-color-picker
-          :model-value="globalStore.themeColor"
-          @update:model-value="changeThemeColor"
-        />
-        <el-button @click="() => changeThemeColor(DEFAULT_THEME)">
-          恢复默认
-        </el-button>
-      </div>
+    <div class="flex items-center gap-4px">
+      <span>主题颜色选择</span>
+      <el-color-picker
+        :model-value="globalStore.themeColor"
+        @update:model-value="changeThemeColor"
+      />
+      <el-button @click="() => changeThemeColor(DEFAULT_THEME)">
+        恢复默认
+      </el-button>
+    </div>
+    <el-row>
+      <el-col :xs="{ span: 24 }" :sm="{ span: 24 }">
+        <el-divider class="divider" content-position="center">
+          <el-icon><Notification /></el-icon>
+          布局样式
+        </el-divider>
+      </el-col>
+    </el-row>
+
+    <div class="layout-box">
+      <el-tooltip
+        effect="dark"
+        content="纵向"
+        placement="top"
+        :show-after="200"
+      >
+        <div
+          class="layout-item layout-vertical"
+          :class="[{ 'is-active': layout === 'vertical' }]"
+          @click="setLayout('vertical')"
+        >
+          <div class="layout-dark" />
+          <div class="layout-container">
+            <div class="layout-light" />
+            <div class="layout-content" />
+          </div>
+          <el-icon v-if="layout === 'vertical'">
+            <CircleCheckFilled />
+          </el-icon>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        effect="dark"
+        content="分栏"
+        placement="top"
+        :show-after="200"
+      >
+        <div
+          class="layout-item layout-columns"
+          :class="[{ 'is-active': layout === 'columns' }]"
+          @click="setLayout('columns')"
+        >
+          <div class="layout-dark" />
+          <div class="layout-light" />
+          <div class="layout-content" />
+          <el-icon v-if="layout === 'columns'">
+            <CircleCheckFilled />
+          </el-icon>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        effect="dark"
+        content="经典"
+        placement="top"
+        :show-after="200"
+      >
+        <div
+          class="layout-item layout-classic"
+          :class="[{ 'is-active': layout === 'classic' }]"
+          @click="setLayout('classic')"
+        >
+          <div class="layout-dark" />
+          <div class="layout-container">
+            <div class="layout-light" />
+            <div class="layout-content" />
+          </div>
+          <el-icon v-if="layout === 'classic'">
+            <CircleCheckFilled />
+          </el-icon>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        effect="dark"
+        content="横向"
+        placement="top"
+        :show-after="200"
+      >
+        <div
+          class="layout-item layout-horizontal"
+          :class="[{ 'is-active': layout === 'horizontal' }]"
+          @click="setLayout('horizontal')"
+        >
+          <div class="layout-dark" />
+          <div class="layout-content" />
+          <el-icon v-if="layout === 'horizontal'">
+            <CircleCheckFilled />
+          </el-icon>
+        </div>
+      </el-tooltip>
+    </div>
+
+    <el-form label-width="auto" label-position="left" class="p-t-8px p-l-3px">
       <el-row>
-        <el-col :xs="{ span: 24 }" :sm="{ span: 24 }">
-          <el-divider class="divider" content-position="center">
-            <el-icon><Notification /></el-icon>
-            布局样式
-          </el-divider>
+        <el-col :xs="{ span: 24 }" :sm="{ span: 13 }">
+          <el-form-item>
+            <div class="flex items-center">
+              <span class="m-r-2px">路由动画</span>
+              <el-tooltip placement="bottom" content="路由加载动画模式">
+                <el-icon class="m-r-10px">
+                  <QuestionFilled />
+                </el-icon>
+              </el-tooltip>
+            </div>
+            <el-select
+              v-model="transition"
+              placeholder="请选择路由动画"
+              clearable
+              style="width: 200px"
+            >
+              <el-option label="默认" value="fade-default" />
+              <el-option label="渐变" value="fade" />
+              <el-option label="滑动" value="fade-slide" />
+              <el-option label="抽屉" value="zoom-fade" />
+              <el-option label="底部滑出" value="fade-bottom" />
+              <el-option label="缩放消退" value="fade-scale" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="{ span: 24 }" :sm="{ span: 11 }">
+          <el-form-item label="折叠菜单">
+            <el-form-item>
+              <el-switch
+                v-model="isCollapse"
+                active-text="展开"
+                inactive-text="折叠"
+                :active-value="true"
+                :inactive-value="false"
+                :inline-prompt="true"
+              />
+            </el-form-item>
+          </el-form-item>
         </el-col>
       </el-row>
 
-      <div class="layout-box">
-        <el-tooltip
-          effect="dark"
-          content="纵向"
-          placement="top"
-          :show-after="200"
-        >
-          <div
-            class="layout-item layout-vertical"
-            :class="[{ 'is-active': layout === 'vertical' }]"
-            @click="setLayout('vertical')"
-          >
-            <div class="layout-dark" />
-            <div class="layout-container">
-              <div class="layout-light" />
-              <div class="layout-content" />
-            </div>
-            <el-icon v-if="layout === 'vertical'">
-              <CircleCheckFilled />
-            </el-icon>
-          </div>
-        </el-tooltip>
-        <el-tooltip
-          effect="dark"
-          content="分栏"
-          placement="top"
-          :show-after="200"
-        >
-          <div
-            class="layout-item layout-columns"
-            :class="[{ 'is-active': layout === 'columns' }]"
-            @click="setLayout('columns')"
-          >
-            <div class="layout-dark" />
-            <div class="layout-light" />
-            <div class="layout-content" />
-            <el-icon v-if="layout === 'columns'">
-              <CircleCheckFilled />
-            </el-icon>
-          </div>
-        </el-tooltip>
-        <el-tooltip
-          effect="dark"
-          content="经典"
-          placement="top"
-          :show-after="200"
-        >
-          <div
-            class="layout-item layout-classic"
-            :class="[{ 'is-active': layout === 'classic' }]"
-            @click="setLayout('classic')"
-          >
-            <div class="layout-dark" />
-            <div class="layout-container">
-              <div class="layout-light" />
-              <div class="layout-content" />
-            </div>
-            <el-icon v-if="layout === 'classic'">
-              <CircleCheckFilled />
-            </el-icon>
-          </div>
-        </el-tooltip>
-        <el-tooltip
-          effect="dark"
-          content="横向"
-          placement="top"
-          :show-after="200"
-        >
-          <div
-            class="layout-item layout-horizontal"
-            :class="[{ 'is-active': layout === 'horizontal' }]"
-            @click="setLayout('horizontal')"
-          >
-            <div class="layout-dark" />
-            <div class="layout-content" />
-            <el-icon v-if="layout === 'horizontal'">
-              <CircleCheckFilled />
-            </el-icon>
-          </div>
-        </el-tooltip>
-      </div>
-
-      <el-form label-width="auto" label-position="left" class="p-t-8px p-l-3px">
-        <el-row>
-          <el-col :xs="{ span: 24 }" :sm="{ span: 13 }">
-            <el-form-item>
-              <div class="flex items-center">
-                <span class="m-r-2px">路由动画</span>
-                <el-tooltip placement="bottom" content="路由加载动画模式">
-                  <el-icon class="m-r-10px">
-                    <QuestionFilled />
-                  </el-icon>
-                </el-tooltip>
-              </div>
-              <el-select
-                v-model="transition"
-                placeholder="请选择路由动画"
-                clearable
-                style="width: 200px"
+      <el-row>
+        <el-col :xs="{ span: 24 }" :sm="{ span: 13 }">
+          <el-form-item>
+            <div class="flex items-center">
+              <span class="m-r-2px">菜单手风琴</span>
+              <el-tooltip
+                placement="bottom"
+                content="左侧菜单是否展开单个子菜单[启用-单个/关闭-多个]"
               >
-                <el-option label="默认" value="fade-default" />
-                <el-option label="渐变" value="fade" />
-                <el-option label="滑动" value="fade-slide" />
-                <el-option label="抽屉" value="zoom-fade" />
-                <el-option label="底部滑出" value="fade-bottom" />
-                <el-option label="缩放消退" value="fade-scale" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :xs="{ span: 24 }" :sm="{ span: 11 }">
-            <el-form-item label="折叠菜单">
-              <el-form-item>
-                <el-switch
-                  v-model="isCollapse"
-                  active-text="展开"
-                  inactive-text="折叠"
-                  :active-value="true"
-                  :inactive-value="false"
-                  :inline-prompt="true"
-                />
-              </el-form-item>
-            </el-form-item>
-          </el-col>
-        </el-row>
+                <el-icon class="m-r-10px">
+                  <QuestionFilled />
+                </el-icon>
+              </el-tooltip>
+            </div>
+            <el-switch
+              v-model="uniqueOpened"
+              active-text="启用"
+              inactive-text="停用"
+              :active-value="true"
+              :inactive-value="false"
+              :inline-prompt="true"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :xs="{ span: 24 }" :sm="{ span: 11 }">
+          <el-form-item label="菜单宽度">
+            <el-input-number
+              v-model="menuWidth"
+              :min="210"
+              :max="260"
+              :step="2"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-        <el-row>
-          <el-col :xs="{ span: 24 }" :sm="{ span: 13 }">
-            <el-form-item>
-              <div class="flex items-center">
-                <span class="m-r-2px">菜单手风琴</span>
-                <el-tooltip
-                  placement="bottom"
-                  content="左侧菜单是否展开单个子菜单[启用-单个/关闭-多个]"
-                >
-                  <el-icon class="m-r-10px">
-                    <QuestionFilled />
-                  </el-icon>
-                </el-tooltip>
-              </div>
-              <el-switch
-                v-model="uniqueOpened"
-                active-text="启用"
-                inactive-text="停用"
-                :active-value="true"
-                :inactive-value="false"
-                :inline-prompt="true"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="{ span: 24 }" :sm="{ span: 11 }">
-            <el-form-item label="菜单宽度">
-              <el-input-number
-                v-model="menuWidth"
-                :min="210"
-                :max="260"
-                :step="2"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :xs="{ span: 24 }" :sm="{ span: 12 }">
-            <el-form-item label="灰色模式">
-              <el-switch
-                v-model="isGrey"
-                active-text="启用"
-                inactive-text="停用"
-                :active-value="true"
-                :inactive-value="false"
-                :inline-prompt="true"
-                @change="changeGrey(!!$event)"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-    </template>
+      <el-row>
+        <el-col :xs="{ span: 24 }" :sm="{ span: 12 }">
+          <el-form-item label="灰色模式">
+            <el-switch
+              v-model="isGrey"
+              active-text="启用"
+              inactive-text="停用"
+              :active-value="true"
+              :inactive-value="false"
+              :inline-prompt="true"
+              @change="changeGrey(!!$event)"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
   </Dialog>
 </template>
 

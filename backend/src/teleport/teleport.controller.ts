@@ -3,10 +3,12 @@ import { PaginatePipe } from 'src/common/pipes/paginate.pipe'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtGuard } from 'src/common/guards/jwt.guard'
 import { RolesGuard } from 'src/common/guards/roles.guard'
+import { Serialize } from 'src/common/decorators/serialize.decorator'
 import { TeleportService } from './teleport.service'
 import { CreateTeleportDto } from './dto/create-teleport.dto'
 import { UpdateTeleportDto } from './dto/update-teleport.dto'
 import { GetTeleportDto } from './dto/get-teleport.dto'
+import { FindTeleportDto } from './dto/find-teleport.dto'
 
 @ApiTags('teleport')
 @ApiBearerAuth()
@@ -21,6 +23,7 @@ export class TeleportController {
   }
 
   @Get()
+  @Serialize(FindTeleportDto)
   findAll(@Query(new PaginatePipe()) query: GetTeleportDto) {
     return this.teleportService.findAll(query)
   }

@@ -369,7 +369,7 @@ function handleConfirm() {
       resetForm()
       handleTreeList()
     }
-    catch (error) {
+    catch {
       noticeError('添加失败，请刷新重试')
     }
     confirmLoading.value = false
@@ -417,9 +417,7 @@ function handleDelete({ row }: any) {
         @confirm="handleConfirm"
         @cancel="handleCancel"
       >
-        <template #content>
-          <MenuForm ref="menuFormRef" :model="form" />
-        </template>
+        <MenuForm ref="menuFormRef" :model="form" />
       </Dialog>
     </el-card>
   </div>

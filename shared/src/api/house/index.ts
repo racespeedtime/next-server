@@ -1,5 +1,5 @@
-import type { CustomAxiosRequest } from 'shared/types'
-import { getRestfulApi } from 'shared/utils'
+import type { CustomAxiosRequest } from '../../types'
+import { getRestfulApi } from '../../utils'
 
 export function createHouseApi(request: CustomAxiosRequest) {
   return {

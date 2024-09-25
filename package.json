@@ -16,18 +16,18 @@
     "lint:server": "eslint \"server/src/**/*.ts\" --fix",
     "lint:shared": "eslint \"shared/**/*.ts\" --fix",
     "lint:staged": "pnpm lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
-    "@nestjs/mapped-types": "*"
+    "@nestjs/mapped-types": "*",
+    "axios": "^1.7.7"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",
     "@commitlint/cli": "^18.6.1",
     "@commitlint/config-conventional": "^18.6.3",
-    "axios": "^1.7.7",
-    "eslint": "^8.57.0",
-    "husky": "^9.1.5",
+    "eslint": "^8.57.1",
+    "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "typescript": "^5.6.2"
   },
