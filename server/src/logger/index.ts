@@ -1,3 +1,4 @@
+import process from 'node:process'
 import pino from 'pino'
 
 export const logger = pino({
@@ -8,4 +9,8 @@ export const logger = pino({
       ignore: 'pid,hostname',
     },
   },
+})
+
+process.on('uncaughtException', (err) => {
+  logger.error(err)
 })
