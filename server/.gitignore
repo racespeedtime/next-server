@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 dist
-components
+/components
 log.txt
 omp-server.exe
 libnode.dll

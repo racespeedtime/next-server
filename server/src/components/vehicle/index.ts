@@ -226,3 +226,47 @@ PlayerEvent.onCommandText(['c 3d, veh 3d'], ({ player, next }) => {
   // player.sendClientMessage(ColorEnum.White, '[交通工具]已显示3D速度表')
   return next()
 })
+
+PlayerEvent.onCommandText('sdb', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('f', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText(['fix', 'repair'], ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText(['dcar', 'autofix'], ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('hys', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('infobj', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('wdac', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('ac', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('cars', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('aczb', ({ next }) => {
+  return next()
+})
+
+PlayerEvent.onCommandText('llac', ({ next }) => {
+  return next()
+})
